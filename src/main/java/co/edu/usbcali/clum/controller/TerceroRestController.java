@@ -2,6 +2,7 @@ package co.edu.usbcali.clum.controller;
 
 import co.edu.usbcali.clum.domain.*;
 import co.edu.usbcali.clum.dto.TerceroDTO;
+import co.edu.usbcali.clum.dto.TipoMaterialDTO;
 import co.edu.usbcali.clum.mapper.TerceroMapper;
 import co.edu.usbcali.clum.service.TerceroService;
 
@@ -9,7 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,12 +26,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tercero")
+@CrossOrigin("*")
 public class TerceroRestController {
     private static final Logger log = LoggerFactory.getLogger(TerceroRestController.class);
     @Autowired
     private TerceroService terceroService;
     @Autowired
     private TerceroMapper terceroMapper;
+    
+    private static final int ESTADO_ACTIVADO = 1;
+    private static final int ESTADO_DESACTIVADO = 2;
 
     @PostMapping(value = "/saveTercero")
     public void saveTercero(@RequestBody
@@ -93,4 +99,84 @@ public class TerceroRestController {
 
         return null;
     }
+    
+    @PutMapping("/deactivate")
+	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
+		deactivate(@RequestBody TerceroDTO terceroDTO)
+				throws Exception{
+		try {
+			if(terceroDTO == null) {
+				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+						"El tercero es nulo"));
+			}
+			
+			log.info("intentando desactivar tercero: " + 
+					terceroDTO.toString());
+			
+			Tercero toBeFound = terceroService
+					.getTercero(terceroDTO.getTerceroId());
+			
+			if(toBeFound == null) {
+				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+						"El tercero con id "
+						+ terceroDTO.getTerceroId()
+						+ " no existe"));
+			}
+			
+			terceroDTO.setIdEstado_Estado(ESTADO_DESACTIVADO);
+			
+			Tercero tercero = terceroMapper
+					.terceroDTOToTercero(terceroDTO);
+			terceroService.updateTercero(tercero);
+			
+			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+					"El tercero con id "
+					+ tercero.getTerceroId()
+					+ " ha sido desactivado exitosamente"));
+			
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+		}
+		
+	}
+	
+	@PutMapping("/activate")
+	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
+		activate(@RequestBody TerceroDTO terceroDTO)
+				throws Exception{
+		try {
+			if(terceroDTO == null) {
+				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+						"El tercero es nulo"));
+			}
+			
+			log.info("intentando activar tercero: " + 
+					terceroDTO.toString());
+			
+			Tercero toBeFound = terceroService
+					.getTercero(terceroDTO.getTerceroId());
+			
+			if(toBeFound == null) {
+				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+						"El tercero con id "
+						+ terceroDTO.getTerceroId()
+						+ " no existe"));
+			}
+			
+			terceroDTO.setIdEstado_Estado(ESTADO_ACTIVADO);
+			
+			Tercero tercero = terceroMapper
+					.terceroDTOToTercero(terceroDTO);
+			terceroService.updateTercero(tercero);
+			
+			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+					"El tercero con id "
+					+ tercero.getTerceroId()
+					+ " ha sido activado exitosamente"));
+			
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+		}
+		
+	}
 }

@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
 @Entity
 @Table(name = "estado", schema = "public")
 public class Estado implements java.io.Serializable {
-    @NotNull
+	@NotNull
     private Integer idEstado;
     private String estado;
     private Set<Canalizacion> canalizacions = new HashSet<Canalizacion>(0);

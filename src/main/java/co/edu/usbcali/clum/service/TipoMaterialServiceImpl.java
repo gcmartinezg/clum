@@ -197,7 +197,7 @@ public class TipoMaterialServiceImpl implements TipoMaterialService {
         } finally {
         }
     }
-
+    
     @Transactional(readOnly = true)
     public List<TipoMaterialDTO> getDataTipoMaterial()
         throws Exception {

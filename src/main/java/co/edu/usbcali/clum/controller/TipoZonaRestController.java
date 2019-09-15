@@ -1,6 +1,7 @@
 package co.edu.usbcali.clum.controller;
 
 import co.edu.usbcali.clum.domain.*;
+import co.edu.usbcali.clum.dto.TipoUsuarioDTO;
 import co.edu.usbcali.clum.dto.TipoZonaDTO;
 import co.edu.usbcali.clum.mapper.TipoZonaMapper;
 import co.edu.usbcali.clum.service.TipoZonaService;
@@ -9,7 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,12 +26,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tipoZona")
+@CrossOrigin("*")
 public class TipoZonaRestController {
     private static final Logger log = LoggerFactory.getLogger(TipoZonaRestController.class);
     @Autowired
     private TipoZonaService tipoZonaService;
     @Autowired
     private TipoZonaMapper tipoZonaMapper;
+    
+    private static final int ESTADO_ACTIVADO = 1;
+    private static final int ESTADO_DESACTIVADO = 2;
 
     @PostMapping(value = "/saveTipoZona")
     public void saveTipoZona(@RequestBody
@@ -94,4 +100,84 @@ public class TipoZonaRestController {
 
         return null;
     }
+    
+    @PutMapping("/deactivate")
+	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
+		deactivate(@RequestBody TipoZonaDTO tipoZonaDTO)
+				throws Exception{
+		try {
+			if(tipoZonaDTO == null) {
+				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+						"El tipo de zona es nulo"));
+			}
+			
+			log.info("intentando desactivar tipo de zona: " + 
+					tipoZonaDTO.toString());
+			
+			TipoZona toBeFound = tipoZonaService
+					.getTipoZona(tipoZonaDTO.getTipoZonaId());
+			
+			if(toBeFound == null) {
+				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+						"El tipo de zona con id "
+						+ tipoZonaDTO.getTipoZonaId()
+						+ " no existe"));
+			}
+			
+			tipoZonaDTO.setIdEstado_Estado(ESTADO_DESACTIVADO);
+			
+			TipoZona tipoZona = tipoZonaMapper
+					.tipoZonaDTOToTipoZona(tipoZonaDTO);
+			tipoZonaService.updateTipoZona(tipoZona);
+			
+			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+					"El tipo de zona con id "
+					+ tipoZona.getTipoZonaId()
+					+ " ha sido exitosamente desactivado"));
+			
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+		}
+		
+	}
+	
+	@PutMapping("/activate")
+	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
+		activate(@RequestBody TipoZonaDTO tipoZonaDTO)
+				throws Exception{
+		try {
+			if(tipoZonaDTO == null) {
+				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+						"El tipo de zona es nulo"));
+			}
+			
+			log.info("intentando activar tipo de zona: " + 
+					tipoZonaDTO.toString());
+			
+			TipoZona toBeFound = tipoZonaService
+					.getTipoZona(tipoZonaDTO.getTipoZonaId());
+			
+			if(toBeFound == null) {
+				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+						"El tipo de zona con id "
+						+ tipoZonaDTO.getTipoZonaId()
+						+ " no existe"));
+			}
+			
+			tipoZonaDTO.setIdEstado_Estado(ESTADO_ACTIVADO);
+			
+			TipoZona tipoZona = tipoZonaMapper
+					.tipoZonaDTOToTipoZona(tipoZonaDTO);
+			tipoZonaService.updateTipoZona(tipoZona);
+			
+			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+					"El tipo de zona con id "
+					+ tipoZona.getTipoZonaId()
+					+ " ha sido exitosamente activado"));
+			
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+		}
+		
+	}
 }

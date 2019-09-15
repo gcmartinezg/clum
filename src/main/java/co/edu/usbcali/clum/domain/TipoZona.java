@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
 @Entity
 @Table(name = "tipo_zona", schema = "public")
 public class TipoZona implements java.io.Serializable {
-    @NotNull
+	@NotNull
     private Integer tipoZonaId;
     @NotNull
     private Estado estado;
