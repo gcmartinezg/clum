@@ -1,10 +1,10 @@
 package co.edu.usbcali.clum.controller;
 
 import co.edu.usbcali.clum.domain.*;
-import co.edu.usbcali.clum.dto.TipoUsuarioDTO;
 import co.edu.usbcali.clum.dto.TipoZonaDTO;
 import co.edu.usbcali.clum.mapper.TipoZonaMapper;
 import co.edu.usbcali.clum.service.TipoZonaService;
+import co.edu.usbcali.clum.utility.Respuesta;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,19 +38,22 @@ public class TipoZonaRestController {
     private static final int ESTADO_DESACTIVADO = 2;
 
     @PostMapping(value = "/saveTipoZona")
-    public void saveTipoZona(@RequestBody
+    public ResponseEntity<Respuesta> saveTipoZona(@RequestBody
     TipoZonaDTO tipoZonaDTO) throws Exception {
         try {
             TipoZona tipoZona = tipoZonaMapper.tipoZonaDTOToTipoZona(tipoZonaDTO);
 
             tipoZonaService.saveTipoZona(tipoZona);
+            return ResponseEntity.ok().body(new Respuesta("El tipo de zona con" + 
+					" id " + tipoZona.getTipoZonaId() + " ha sido guardado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
     @DeleteMapping(value = "/deleteTipoZona/{tipoZonaId}")
+    @Deprecated
     public void deleteTipoZona(@PathVariable("tipoZonaId")
     Integer tipoZonaId) throws Exception {
         try {
@@ -64,15 +67,19 @@ public class TipoZonaRestController {
     }
 
     @PutMapping(value = "/updateTipoZona/")
-    public void updateTipoZona(@RequestBody
+    public ResponseEntity<Respuesta> updateTipoZona(@RequestBody
     TipoZonaDTO tipoZonaDTO) throws Exception {
         try {
             TipoZona tipoZona = tipoZonaMapper.tipoZonaDTOToTipoZona(tipoZonaDTO);
 
             tipoZonaService.updateTipoZona(tipoZona);
+            return ResponseEntity.ok().body(new Respuesta(
+					"El tipo de zona con id "
+					+ tipoZona.getTipoZonaId()
+					+ " ha sido modificado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
@@ -102,12 +109,12 @@ public class TipoZonaRestController {
     }
     
     @PutMapping("/deactivate")
-	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
+	public ResponseEntity<Respuesta> 
 		deactivate(@RequestBody TipoZonaDTO tipoZonaDTO)
 				throws Exception{
 		try {
 			if(tipoZonaDTO == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo de zona es nulo"));
 			}
 			
@@ -118,7 +125,7 @@ public class TipoZonaRestController {
 					.getTipoZona(tipoZonaDTO.getTipoZonaId());
 			
 			if(toBeFound == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo de zona con id "
 						+ tipoZonaDTO.getTipoZonaId()
 						+ " no existe"));
@@ -130,24 +137,24 @@ public class TipoZonaRestController {
 					.tipoZonaDTOToTipoZona(tipoZonaDTO);
 			tipoZonaService.updateTipoZona(tipoZona);
 			
-			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+			return ResponseEntity.ok().body(new Respuesta(
 					"El tipo de zona con id "
 					+ tipoZona.getTipoZonaId()
 					+ " ha sido exitosamente desactivado"));
 			
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
 		}
 		
 	}
 	
 	@PutMapping("/activate")
-	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
+	public ResponseEntity<Respuesta> 
 		activate(@RequestBody TipoZonaDTO tipoZonaDTO)
 				throws Exception{
 		try {
 			if(tipoZonaDTO == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo de zona es nulo"));
 			}
 			
@@ -158,7 +165,7 @@ public class TipoZonaRestController {
 					.getTipoZona(tipoZonaDTO.getTipoZonaId());
 			
 			if(toBeFound == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo de zona con id "
 						+ tipoZonaDTO.getTipoZonaId()
 						+ " no existe"));
@@ -170,13 +177,13 @@ public class TipoZonaRestController {
 					.tipoZonaDTOToTipoZona(tipoZonaDTO);
 			tipoZonaService.updateTipoZona(tipoZona);
 			
-			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+			return ResponseEntity.ok().body(new Respuesta(
 					"El tipo de zona con id "
 					+ tipoZona.getTipoZonaId()
 					+ " ha sido exitosamente activado"));
 			
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
 		}
 		
 	}

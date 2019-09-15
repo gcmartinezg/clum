@@ -1,10 +1,10 @@
 package co.edu.usbcali.clum.controller;
 
 import co.edu.usbcali.clum.domain.*;
-import co.edu.usbcali.clum.dto.TipoTransformadorDTO;
 import co.edu.usbcali.clum.dto.TipoUsuarioDTO;
 import co.edu.usbcali.clum.mapper.TipoUsuarioMapper;
 import co.edu.usbcali.clum.service.TipoUsuarioService;
+import co.edu.usbcali.clum.utility.Respuesta;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,19 +38,22 @@ public class TipoUsuarioRestController {
     private static final int ESTADO_DESACTIVADO = 2;
 
     @PostMapping(value = "/saveTipoUsuario")
-    public void saveTipoUsuario(@RequestBody
+    public ResponseEntity<Respuesta> saveTipoUsuario(@RequestBody
     TipoUsuarioDTO tipoUsuarioDTO) throws Exception {
         try {
             TipoUsuario tipoUsuario = tipoUsuarioMapper.tipoUsuarioDTOToTipoUsuario(tipoUsuarioDTO);
 
             tipoUsuarioService.saveTipoUsuario(tipoUsuario);
+            return ResponseEntity.ok().body(new Respuesta("El tipo de usuario con" + 
+					" id " + tipoUsuario.getTipoUsuarioId() + " ha sido guardado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
     @DeleteMapping(value = "/deleteTipoUsuario/{tipoUsuarioId}")
+    @Deprecated
     public void deleteTipoUsuario(
         @PathVariable("tipoUsuarioId")
     Integer tipoUsuarioId) throws Exception {
@@ -65,15 +68,19 @@ public class TipoUsuarioRestController {
     }
 
     @PutMapping(value = "/updateTipoUsuario/")
-    public void updateTipoUsuario(@RequestBody
+    public ResponseEntity<Respuesta> updateTipoUsuario(@RequestBody
     TipoUsuarioDTO tipoUsuarioDTO) throws Exception {
         try {
             TipoUsuario tipoUsuario = tipoUsuarioMapper.tipoUsuarioDTOToTipoUsuario(tipoUsuarioDTO);
 
             tipoUsuarioService.updateTipoUsuario(tipoUsuario);
+            return ResponseEntity.ok().body(new Respuesta(
+					"El tipo de usuario con id "
+					+ tipoUsuario.getTipoUsuarioId()
+					+ " ha sido modificado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
@@ -108,7 +115,7 @@ public class TipoUsuarioRestController {
 				throws Exception{
 		try {
 			if(tipoUsuarioDTO == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo usuario es nulo"));
 			}
 			
@@ -119,7 +126,7 @@ public class TipoUsuarioRestController {
 					.getTipoUsuario(tipoUsuarioDTO.getTipoUsuarioId());
 			
 			if(toBeFound == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo usuario con id "
 						+ tipoUsuarioDTO.getTipoUsuarioId()
 						+ " no existe"));
@@ -131,24 +138,24 @@ public class TipoUsuarioRestController {
 					.tipoUsuarioDTOToTipoUsuario(tipoUsuarioDTO);
 			tipoUsuarioService.updateTipoUsuario(tipoUsuario);
 			
-			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+			return ResponseEntity.ok().body(new Respuesta(
 					"El tipo usuario con id "
 					+ tipoUsuario.getTipoUsuarioId()
 					+ " ha sido exitosamente desactivado"));
 			
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
 		}
 		
 	}
 	
 	@PutMapping("/activate")
-	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
+	public ResponseEntity<Respuesta> 
 		activate(@RequestBody TipoUsuarioDTO tipoUsuarioDTO)
 				throws Exception{
 		try {
 			if(tipoUsuarioDTO == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo usuario es nulo"));
 			}
 			
@@ -159,7 +166,7 @@ public class TipoUsuarioRestController {
 					.getTipoUsuario(tipoUsuarioDTO.getTipoUsuarioId());
 			
 			if(toBeFound == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo usuario con id "
 						+ tipoUsuarioDTO.getTipoUsuarioId()
 						+ " no existe"));
@@ -171,13 +178,13 @@ public class TipoUsuarioRestController {
 					.tipoUsuarioDTOToTipoUsuario(tipoUsuarioDTO);
 			tipoUsuarioService.updateTipoUsuario(tipoUsuario);
 			
-			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+			return ResponseEntity.ok().body(new Respuesta(
 					"El tipo usuario con id "
 					+ tipoUsuario.getTipoUsuarioId()
 					+ " ha sido exitosamente activado"));
 			
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
 		}
 		
 	}

@@ -4,6 +4,7 @@ import co.edu.usbcali.clum.domain.*;
 import co.edu.usbcali.clum.dto.TipoMaterialDTO;
 import co.edu.usbcali.clum.mapper.TipoMaterialMapper;
 import co.edu.usbcali.clum.service.TipoMaterialService;
+import co.edu.usbcali.clum.utility.Respuesta;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,19 +37,22 @@ public class TipoMaterialRestController {
     private static final int ESTADO_DESACTIVADO = 2;
 
     @PostMapping(value = "/saveTipoMaterial")
-    public void saveTipoMaterial(@RequestBody
+    public ResponseEntity<Respuesta> saveTipoMaterial(@RequestBody
     TipoMaterialDTO tipoMaterialDTO) throws Exception {
         try {
             TipoMaterial tipoMaterial = tipoMaterialMapper.tipoMaterialDTOToTipoMaterial(tipoMaterialDTO);
 
             tipoMaterialService.saveTipoMaterial(tipoMaterial);
+            return ResponseEntity.ok().body(new Respuesta("El tipo de material con" + 
+					" id " + tipoMaterial.getTipoMaterialId() + " ha sido guardado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
     @DeleteMapping(value = "/deleteTipoMaterial/{tipoMaterialId}")
+    @Deprecated
     public void deleteTipoMaterial(
         @PathVariable("tipoMaterialId")
     Integer tipoMaterialId) throws Exception {
@@ -63,15 +67,19 @@ public class TipoMaterialRestController {
     }
 
     @PutMapping(value = "/updateTipoMaterial/")
-    public void updateTipoMaterial(@RequestBody
+    public ResponseEntity<Respuesta> updateTipoMaterial(@RequestBody
     TipoMaterialDTO tipoMaterialDTO) throws Exception {
         try {
             TipoMaterial tipoMaterial = tipoMaterialMapper.tipoMaterialDTOToTipoMaterial(tipoMaterialDTO);
 
             tipoMaterialService.updateTipoMaterial(tipoMaterial);
+            return ResponseEntity.ok().body(new Respuesta(
+					"El tipo de material con id "
+					+ tipoMaterial.getTipoMaterialId()
+					+ " ha sido modificado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
@@ -102,7 +110,7 @@ public class TipoMaterialRestController {
     }
     
     @PutMapping("/deactivate")
-	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
+	public ResponseEntity<Respuesta> 
 		deactivate(@RequestBody TipoMaterialDTO tipoMaterialDTO)
 				throws Exception{
 		try {
@@ -118,7 +126,7 @@ public class TipoMaterialRestController {
 					.getTipoMaterial(tipoMaterialDTO.getTipoMaterialId());
 			
 			if(toBeFound == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"The material type with id "
 						+ tipoMaterialDTO.getTipoMaterialId()
 						+ " does not exist"));
@@ -130,13 +138,13 @@ public class TipoMaterialRestController {
 					.tipoMaterialDTOToTipoMaterial(tipoMaterialDTO);
 			tipoMaterialService.updateTipoMaterial(tipoMaterial);
 			
-			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+			return ResponseEntity.ok().body(new Respuesta(
 					"The document type with id "
 					+ tipoMaterial.getTipoMaterialId()
 					+ " has been successfully deactivated"));
 			
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
 		}
 		
 	}
@@ -147,7 +155,7 @@ public class TipoMaterialRestController {
 				throws Exception{
 		try {
 			if(tipoMaterialDTO == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo de material es nulo"));
 			}
 			
@@ -158,7 +166,7 @@ public class TipoMaterialRestController {
 					.getTipoMaterial(tipoMaterialDTO.getTipoMaterialId());
 			
 			if(toBeFound == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"The material type with id "
 						+ tipoMaterialDTO.getTipoMaterialId()
 						+ " does not exist"));
@@ -170,13 +178,13 @@ public class TipoMaterialRestController {
 					.tipoMaterialDTOToTipoMaterial(tipoMaterialDTO);
 			tipoMaterialService.updateTipoMaterial(tipoMaterial);
 			
-			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+			return ResponseEntity.ok().body(new Respuesta(
 					"The document type with id "
 					+ tipoMaterial.getTipoMaterialId()
 					+ " has been successfully activated"));
 			
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
 		}
 		
 	}

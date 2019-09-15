@@ -1,10 +1,10 @@
 package co.edu.usbcali.clum.controller;
 
 import co.edu.usbcali.clum.domain.*;
-import co.edu.usbcali.clum.dto.TipoSoporteDTO;
 import co.edu.usbcali.clum.dto.TipoTransformadorDTO;
 import co.edu.usbcali.clum.mapper.TipoTransformadorMapper;
 import co.edu.usbcali.clum.service.TipoTransformadorService;
+import co.edu.usbcali.clum.utility.Respuesta;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,20 +38,23 @@ public class TipoTransformadorRestController {
     private static final int ESTADO_DESACTIVADO = 2;
 
     @PostMapping(value = "/saveTipoTransformador")
-    public void saveTipoTransformador(
+    public ResponseEntity<Respuesta> saveTipoTransformador(
         @RequestBody
     TipoTransformadorDTO tipoTransformadorDTO) throws Exception {
         try {
             TipoTransformador tipoTransformador = tipoTransformadorMapper.tipoTransformadorDTOToTipoTransformador(tipoTransformadorDTO);
 
             tipoTransformadorService.saveTipoTransformador(tipoTransformador);
+            return ResponseEntity.ok().body(new Respuesta("El tipo de transformador con" + 
+					" id " + tipoTransformador.getTipoTransformadorId() + " ha sido guardado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
     @DeleteMapping(value = "/deleteTipoTransformador/{tipoTransformadorId}")
+    @Deprecated
     public void deleteTipoTransformador(
         @PathVariable("tipoTransformadorId")
     Integer tipoTransformadorId) throws Exception {
@@ -66,16 +69,20 @@ public class TipoTransformadorRestController {
     }
 
     @PutMapping(value = "/updateTipoTransformador/")
-    public void updateTipoTransformador(
+    public ResponseEntity<Respuesta> updateTipoTransformador(
         @RequestBody
     TipoTransformadorDTO tipoTransformadorDTO) throws Exception {
         try {
             TipoTransformador tipoTransformador = tipoTransformadorMapper.tipoTransformadorDTOToTipoTransformador(tipoTransformadorDTO);
 
             tipoTransformadorService.updateTipoTransformador(tipoTransformador);
+            return ResponseEntity.ok().body(new Respuesta(
+					"El tipo de transformador con id "
+					+ tipoTransformador.getTipoTransformadorId()
+					+ " ha sido modificado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
@@ -106,12 +113,12 @@ public class TipoTransformadorRestController {
     }
     
     @PutMapping("/deactivate")
-	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
+	public ResponseEntity<Respuesta> 
 		deactivate(@RequestBody TipoTransformadorDTO tipoTransformadorDTO)
 				throws Exception{
 		try {
 			if(tipoTransformadorDTO == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo de transformador es nulo"));
 			}
 			
@@ -122,7 +129,7 @@ public class TipoTransformadorRestController {
 					.getTipoTransformador(tipoTransformadorDTO.getTipoTransformadorId());
 			
 			if(toBeFound == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo de transformador con id "
 						+ tipoTransformadorDTO.getTipoTransformadorId()
 						+ " no existe"));
@@ -134,24 +141,24 @@ public class TipoTransformadorRestController {
 					.tipoTransformadorDTOToTipoTransformador(tipoTransformadorDTO);
 			tipoTransformadorService.updateTipoTransformador(tipoTransformador);
 			
-			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+			return ResponseEntity.ok().body(new Respuesta(
 					"El tipo de transformador con id "
 					+ tipoTransformador.getTipoTransformadorId()
 					+ " ha sido exitosamente desactivado"));
 			
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
 		}
 		
 	}
 	
 	@PutMapping("/activate")
-	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
+	public ResponseEntity<Respuesta> 
 		activate(@RequestBody TipoTransformadorDTO tipoTransformadorDTO)
 				throws Exception{
 		try {
 			if(tipoTransformadorDTO == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo de transformador es nulo"));
 			}
 			
@@ -162,7 +169,7 @@ public class TipoTransformadorRestController {
 					.getTipoTransformador(tipoTransformadorDTO.getTipoTransformadorId());
 			
 			if(toBeFound == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo de transformador con id "
 						+ tipoTransformadorDTO.getTipoTransformadorId()
 						+ " no existe"));
@@ -174,13 +181,13 @@ public class TipoTransformadorRestController {
 					.tipoTransformadorDTOToTipoTransformador(tipoTransformadorDTO);
 			tipoTransformadorService.updateTipoTransformador(tipoTransformador);
 			
-			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+			return ResponseEntity.ok().body(new Respuesta(
 					"El tipo de transformador con id "
 					+ tipoTransformador.getTipoTransformadorId()
 					+ " ha sido exitosamente activado"));
 			
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
 		}
 		
 	}

@@ -1,10 +1,10 @@
 package co.edu.usbcali.clum.controller;
 
 import co.edu.usbcali.clum.domain.*;
-import co.edu.usbcali.clum.dto.TipoMaterialDTO;
 import co.edu.usbcali.clum.dto.TipoSoporteDTO;
 import co.edu.usbcali.clum.mapper.TipoSoporteMapper;
 import co.edu.usbcali.clum.service.TipoSoporteService;
+import co.edu.usbcali.clum.utility.Respuesta;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,19 +38,22 @@ public class TipoSoporteRestController {
     private static final int ESTADO_DESACTIVADO = 2;
 
     @PostMapping(value = "/saveTipoSoporte")
-    public void saveTipoSoporte(@RequestBody
+    public ResponseEntity<Respuesta> saveTipoSoporte(@RequestBody
     TipoSoporteDTO tipoSoporteDTO) throws Exception {
         try {
             TipoSoporte tipoSoporte = tipoSoporteMapper.tipoSoporteDTOToTipoSoporte(tipoSoporteDTO);
 
             tipoSoporteService.saveTipoSoporte(tipoSoporte);
+            return ResponseEntity.ok().body(new Respuesta("El tipo de soporte con" + 
+					" id " + tipoSoporte.getTipoSoporteId() + " ha sido guardado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
     @DeleteMapping(value = "/deleteTipoSoporte/{tipoSoporteId}")
+    @Deprecated
     public void deleteTipoSoporte(
         @PathVariable("tipoSoporteId")
     Integer tipoSoporteId) throws Exception {
@@ -65,15 +68,19 @@ public class TipoSoporteRestController {
     }
 
     @PutMapping(value = "/updateTipoSoporte/")
-    public void updateTipoSoporte(@RequestBody
+    public ResponseEntity<Respuesta> updateTipoSoporte(@RequestBody
     TipoSoporteDTO tipoSoporteDTO) throws Exception {
         try {
             TipoSoporte tipoSoporte = tipoSoporteMapper.tipoSoporteDTOToTipoSoporte(tipoSoporteDTO);
 
             tipoSoporteService.updateTipoSoporte(tipoSoporte);
+            return ResponseEntity.ok().body(new Respuesta(
+					"El tipo de soporte con id "
+					+ tipoSoporte.getTipoSoporteId()
+					+ " ha sido modificado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
@@ -103,12 +110,12 @@ public class TipoSoporteRestController {
     }
     
     @PutMapping("/deactivate")
-	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
+	public ResponseEntity<Respuesta> 
 		deactivate(@RequestBody TipoSoporteDTO tipoSoporteDTO)
 				throws Exception{
 		try {
 			if(tipoSoporteDTO == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo de soporte es nulo"));
 			}
 			
@@ -119,7 +126,7 @@ public class TipoSoporteRestController {
 					.getTipoSoporte(tipoSoporteDTO.getTipoSoporteId());
 			
 			if(toBeFound == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo soporte con id "
 						+ tipoSoporteDTO.getTipoSoporteId()
 						+ " no existe"));
@@ -131,24 +138,24 @@ public class TipoSoporteRestController {
 					.tipoSoporteDTOToTipoSoporte(tipoSoporteDTO);
 			tipoSoporteService.updateTipoSoporte(tipoSoporte);
 			
-			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+			return ResponseEntity.ok().body(new Respuesta(
 					"El tipo de soporte con id "
 					+ tipoSoporte.getTipoSoporteId()
 					+ " ha sido exitosamente desactivado"));
 			
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
 		}
 		
 	}
 	
 	@PutMapping("/activate")
-	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
+	public ResponseEntity<Respuesta> 
 		activate(@RequestBody TipoSoporteDTO tipoSoporteDTO)
 				throws Exception{
 		try {
 			if(tipoSoporteDTO == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo de soporte es nulo"));
 			}
 			
@@ -159,7 +166,7 @@ public class TipoSoporteRestController {
 					.getTipoSoporte(tipoSoporteDTO.getTipoSoporteId());
 			
 			if(toBeFound == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tipo soporte con id "
 						+ tipoSoporteDTO.getTipoSoporteId()
 						+ " no existe"));
@@ -171,13 +178,13 @@ public class TipoSoporteRestController {
 					.tipoSoporteDTOToTipoSoporte(tipoSoporteDTO);
 			tipoSoporteService.updateTipoSoporte(tipoSoporte);
 			
-			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+			return ResponseEntity.ok().body(new Respuesta(
 					"El tipo de soporte con id "
 					+ tipoSoporte.getTipoSoporteId()
 					+ " ha sido exitosamente activado"));
 			
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
 		}
 		
 	}
