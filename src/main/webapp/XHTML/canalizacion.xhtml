@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">	
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelCanalizacion" header="Canalizacion">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgCanalizacionId" value="CanalizacionId"/>
+						 	<p:inputText id="txtCanalizacionId" binding="#{canalizacionView.txtCanalizacionId}">
+						 		<p:ajax update="panelCanalizacion,msg,panelBotones" listener="#{canalizacionView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgCajaInspeccion" value=" CajaInspeccion"/>
+							<p:inputText id="txtCajaInspeccion" disabled="true" binding="#{canalizacionView.txtCajaInspeccion}"/>
+													<h:outputText id="msgDucteria" value=" Ducteria"/>
+							<p:inputText id="txtDucteria" disabled="true" binding="#{canalizacionView.txtDucteria}"/>
+													<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+							<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{canalizacionView.txtIdEstado_Estado}"/>
+													<h:outputText id="msgLamparaId_Lampara" value=" LamparaId_Lampara"/>
+							<p:inputText id="txtLamparaId_Lampara" disabled="true" binding="#{canalizacionView.txtLamparaId_Lampara}"/>
+													<h:outputText id="msgTipoSoporteId_TipoSoporte" value=" TipoSoporteId_TipoSoporte"/>
+							<p:inputText id="txtTipoSoporteId_TipoSoporte" disabled="true" binding="#{canalizacionView.txtTipoSoporteId_TipoSoporte}"/>
+													<h:outputText id="msgTipoZonaId_TipoZona" value=" TipoZonaId_TipoZona"/>
+							<p:inputText id="txtTipoZonaId_TipoZona" disabled="true" binding="#{canalizacionView.txtTipoZonaId_TipoZona}"/>
+												
+										   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{canalizacionView.btnSave}" disabled="true" value="Save" action="#{canalizacionView.action_save()}" update="panelCanalizacion,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{canalizacionView.btnDelete}" disabled="true" value="Delete" action="#{canalizacionView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelCanalizacion,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{canalizacionView.action_clear()}" update="panelCanalizacion,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+  </ui:define>
+</ui:composition>

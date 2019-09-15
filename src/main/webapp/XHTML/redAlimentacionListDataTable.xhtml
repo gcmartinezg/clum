@@ -1,0 +1,116 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableRedAlimentacion" header="RedAlimentacionData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{redAlimentacionView.data}" var="redAlimentacion"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{redAlimentacion.redAlimentacionId}" sortBy="#{redAlimentacion.redAlimentacionId}" >
+										 <f:facet name="header">
+										<h:outputText value="redAlimentacionId"/>
+										</f:facet>
+										 <h:outputText value="#{redAlimentacion.redAlimentacionId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{redAlimentacion.calibreConductorAwg}" sortBy="#{redAlimentacion.calibreConductorAwg}" >
+										 <f:facet name="header">
+										<h:outputText value="CalibreConductorAwg"/>
+										</f:facet>
+										 <h:outputText value="#{redAlimentacion.calibreConductorAwg}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{redAlimentacion.idEstado_Estado}" sortBy="#{redAlimentacion.idEstado_Estado}" >
+										 <f:facet name="header">
+										<h:outputText value="IdEstado_Estado"/>
+										</f:facet>
+										 <h:outputText value="#{redAlimentacion.idEstado_Estado}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{redAlimentacion.tipoInstalacionId_TipoInstalacion}" sortBy="#{redAlimentacion.tipoInstalacionId_TipoInstalacion}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoInstalacionId_TipoInstalacion"/>
+										</f:facet>
+										 <h:outputText value="#{redAlimentacion.tipoInstalacionId_TipoInstalacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{redAlimentacion.tipoMaterialId_TipoMaterial}" sortBy="#{redAlimentacion.tipoMaterialId_TipoMaterial}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoMaterialId_TipoMaterial"/>
+										</f:facet>
+										 <h:outputText value="#{redAlimentacion.tipoMaterialId_TipoMaterial}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{redAlimentacion.tipoSoporteId_TipoSoporte}" sortBy="#{redAlimentacion.tipoSoporteId_TipoSoporte}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoSoporteId_TipoSoporte"/>
+										</f:facet>
+										 <h:outputText value="#{redAlimentacion.tipoSoporteId_TipoSoporte}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogRedAlimentacion"
+										actionListener="#{redAlimentacionView.action_edit}">
+										<f:attribute name="selectedRedAlimentacion" value="#{redAlimentacion}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{redAlimentacionView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedRedAlimentacion" value="#{redAlimentacion}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{redAlimentacionView.action_new()}" update=":dialogRedAlimentacion" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogRedAlimentacion" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{redAlimentacionView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelRedAlimentacion" header="RedAlimentacion">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgRedAlimentacionId" value="RedAlimentacionId"/>
+									 <p:inputText id="txtRedAlimentacionId" binding="#{redAlimentacionView.txtRedAlimentacionId}">
+									 <p:ajax update=":dialogRedAlimentacion" listener="#{redAlimentacionView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgCalibreConductorAwg" value=" CalibreConductorAwg"/>
+									<p:inputText id="txtCalibreConductorAwg" disabled="true" binding="#{redAlimentacionView.txtCalibreConductorAwg}"/>
+																		<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+									<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{redAlimentacionView.txtIdEstado_Estado}"/>
+																		<h:outputText id="msgTipoInstalacionId_TipoInstalacion" value=" TipoInstalacionId_TipoInstalacion"/>
+									<p:inputText id="txtTipoInstalacionId_TipoInstalacion" disabled="true" binding="#{redAlimentacionView.txtTipoInstalacionId_TipoInstalacion}"/>
+																		<h:outputText id="msgTipoMaterialId_TipoMaterial" value=" TipoMaterialId_TipoMaterial"/>
+									<p:inputText id="txtTipoMaterialId_TipoMaterial" disabled="true" binding="#{redAlimentacionView.txtTipoMaterialId_TipoMaterial}"/>
+																		<h:outputText id="msgTipoSoporteId_TipoSoporte" value=" TipoSoporteId_TipoSoporte"/>
+									<p:inputText id="txtTipoSoporteId_TipoSoporte" disabled="true" binding="#{redAlimentacionView.txtTipoSoporteId_TipoSoporte}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{redAlimentacionView.btnSave}" value="Save" action="#{redAlimentacionView.action_save()}" update=":dialogRedAlimentacion :frm:panelDataTableRedAlimentacion" />
+									<p:commandButton id="btnClear" value="Clear" action="#{redAlimentacionView.action_clear()}" update=":dialogRedAlimentacion" />
+									<p:commandButton id="btnExit" value="Exit" action="#{redAlimentacionView.action_closeDialog()}" update=":dialogRedAlimentacion" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

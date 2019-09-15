@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">	
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelTipoInstalacion" header="TipoInstalacion">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgTipoInstalacionId" value="TipoInstalacionId"/>
+						 	<p:inputText id="txtTipoInstalacionId" binding="#{tipoInstalacionView.txtTipoInstalacionId}">
+						 		<p:ajax update="panelTipoInstalacion,msg,panelBotones" listener="#{tipoInstalacionView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgNombreTipoInstalacion" value=" NombreTipoInstalacion"/>
+							<p:inputText id="txtNombreTipoInstalacion" disabled="true" binding="#{tipoInstalacionView.txtNombreTipoInstalacion}"/>
+													<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+							<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{tipoInstalacionView.txtIdEstado_Estado}"/>
+												
+										   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{tipoInstalacionView.btnSave}" disabled="true" value="Save" action="#{tipoInstalacionView.action_save()}" update="panelTipoInstalacion,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{tipoInstalacionView.btnDelete}" disabled="true" value="Delete" action="#{tipoInstalacionView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelTipoInstalacion,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{tipoInstalacionView.action_clear()}" update="panelTipoInstalacion,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+  </ui:define>
+</ui:composition>

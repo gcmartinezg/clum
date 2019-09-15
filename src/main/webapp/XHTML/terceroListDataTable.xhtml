@@ -1,0 +1,134 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableTercero" header="TerceroData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{terceroView.data}" var="tercero"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{tercero.terceroId}" sortBy="#{tercero.terceroId}" >
+										 <f:facet name="header">
+										<h:outputText value="terceroId"/>
+										</f:facet>
+										 <h:outputText value="#{tercero.terceroId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{tercero.direccion}" sortBy="#{tercero.direccion}" >
+										 <f:facet name="header">
+										<h:outputText value="Direccion"/>
+										</f:facet>
+										 <h:outputText value="#{tercero.direccion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tercero.email}" sortBy="#{tercero.email}" >
+										 <f:facet name="header">
+										<h:outputText value="Email"/>
+										</f:facet>
+										 <h:outputText value="#{tercero.email}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tercero.nombreTercero}" sortBy="#{tercero.nombreTercero}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreTercero"/>
+										</f:facet>
+										 <h:outputText value="#{tercero.nombreTercero}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tercero.numeroDocumento}" sortBy="#{tercero.numeroDocumento}" >
+										 <f:facet name="header">
+										<h:outputText value="NumeroDocumento"/>
+										</f:facet>
+										 <h:outputText value="#{tercero.numeroDocumento}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tercero.telefono}" sortBy="#{tercero.telefono}" >
+										 <f:facet name="header">
+										<h:outputText value="Telefono"/>
+										</f:facet>
+										 <h:outputText value="#{tercero.telefono}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tercero.idEstado_Estado}" sortBy="#{tercero.idEstado_Estado}" >
+										 <f:facet name="header">
+										<h:outputText value="IdEstado_Estado"/>
+										</f:facet>
+										 <h:outputText value="#{tercero.idEstado_Estado}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tercero.tipoDocumentoId_TipoDocumento}" sortBy="#{tercero.tipoDocumentoId_TipoDocumento}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoDocumentoId_TipoDocumento"/>
+										</f:facet>
+										 <h:outputText value="#{tercero.tipoDocumentoId_TipoDocumento}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogTercero"
+										actionListener="#{terceroView.action_edit}">
+										<f:attribute name="selectedTercero" value="#{tercero}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{terceroView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedTercero" value="#{tercero}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{terceroView.action_new()}" update=":dialogTercero" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogTercero" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{terceroView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelTercero" header="Tercero">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgTerceroId" value="TerceroId"/>
+									 <p:inputText id="txtTerceroId" binding="#{terceroView.txtTerceroId}">
+									 <p:ajax update=":dialogTercero" listener="#{terceroView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgDireccion" value=" Direccion"/>
+									<p:inputText id="txtDireccion" disabled="true" binding="#{terceroView.txtDireccion}"/>
+																		<h:outputText id="msgEmail" value=" Email"/>
+									<p:inputText id="txtEmail" disabled="true" binding="#{terceroView.txtEmail}"/>
+																		<h:outputText id="msgNombreTercero" value=" NombreTercero"/>
+									<p:inputText id="txtNombreTercero" disabled="true" binding="#{terceroView.txtNombreTercero}"/>
+																		<h:outputText id="msgNumeroDocumento" value=" NumeroDocumento"/>
+									<p:inputText id="txtNumeroDocumento" disabled="true" binding="#{terceroView.txtNumeroDocumento}"/>
+																		<h:outputText id="msgTelefono" value=" Telefono"/>
+									<p:inputText id="txtTelefono" disabled="true" binding="#{terceroView.txtTelefono}"/>
+																		<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+									<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{terceroView.txtIdEstado_Estado}"/>
+																		<h:outputText id="msgTipoDocumentoId_TipoDocumento" value=" TipoDocumentoId_TipoDocumento"/>
+									<p:inputText id="txtTipoDocumentoId_TipoDocumento" disabled="true" binding="#{terceroView.txtTipoDocumentoId_TipoDocumento}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{terceroView.btnSave}" value="Save" action="#{terceroView.action_save()}" update=":dialogTercero :frm:panelDataTableTercero" />
+									<p:commandButton id="btnClear" value="Clear" action="#{terceroView.action_clear()}" update=":dialogTercero" />
+									<p:commandButton id="btnExit" value="Exit" action="#{terceroView.action_closeDialog()}" update=":dialogTercero" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

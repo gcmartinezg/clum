@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <persistence-unit name="clum-backendPU"
+        transaction-type="RESOURCE_LOCAL">
+        
+                    <class>co.edu.usbcali.clum.domain.RedAlimentacion</class>
+                                <class>co.edu.usbcali.clum.domain.TipoLampara</class>
+                                <class>co.edu.usbcali.clum.domain.Tercero</class>
+                                <class>co.edu.usbcali.clum.domain.LamparaRegistrada</class>
+                                <class>co.edu.usbcali.clum.domain.Estado</class>
+                                <class>co.edu.usbcali.clum.domain.SoporteLampara</class>
+                                <class>co.edu.usbcali.clum.domain.Lampara</class>
+                                <class>co.edu.usbcali.clum.domain.TipoBalasto</class>
+                                <class>co.edu.usbcali.clum.domain.TipoInstalacion</class>
+                                <class>co.edu.usbcali.clum.domain.TipoTransformador</class>
+                                <class>co.edu.usbcali.clum.domain.TipoDocumento</class>
+                                <class>co.edu.usbcali.clum.domain.Canalizacion</class>
+                                <class>co.edu.usbcali.clum.domain.TipoMaterial</class>
+                                <class>co.edu.usbcali.clum.domain.Usuario</class>
+                                <class>co.edu.usbcali.clum.domain.Transformador</class>
+                                <class>co.edu.usbcali.clum.domain.TipoZona</class>
+                                <class>co.edu.usbcali.clum.domain.TipoEspacioIluminado</class>
+                                <class>co.edu.usbcali.clum.domain.TipoUsuario</class>
+                                <class>co.edu.usbcali.clum.domain.TipoSoporte</class>
+                          
+        <properties>
+            <property name="hibernate.connection.driver_class"
+                value="org.postgresql.Driver" />
+             <property name="hibernate.connection.url"
+                    value="jdbc:postgresql://127.0.0.1:5432/clum" />
+             <property name="hibernate.connection.username" value="postgres" />
+             <property name="hibernate.connection.password" value="daniel" />
+        </properties>
+     
+    </persistence-unit>
+</persistence>

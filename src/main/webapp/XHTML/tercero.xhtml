@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">	
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelTercero" header="Tercero">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgTerceroId" value="TerceroId"/>
+						 	<p:inputText id="txtTerceroId" binding="#{terceroView.txtTerceroId}">
+						 		<p:ajax update="panelTercero,msg,panelBotones" listener="#{terceroView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgDireccion" value=" Direccion"/>
+							<p:inputText id="txtDireccion" disabled="true" binding="#{terceroView.txtDireccion}"/>
+													<h:outputText id="msgEmail" value=" Email"/>
+							<p:inputText id="txtEmail" disabled="true" binding="#{terceroView.txtEmail}"/>
+													<h:outputText id="msgNombreTercero" value=" NombreTercero"/>
+							<p:inputText id="txtNombreTercero" disabled="true" binding="#{terceroView.txtNombreTercero}"/>
+													<h:outputText id="msgNumeroDocumento" value=" NumeroDocumento"/>
+							<p:inputText id="txtNumeroDocumento" disabled="true" binding="#{terceroView.txtNumeroDocumento}"/>
+													<h:outputText id="msgTelefono" value=" Telefono"/>
+							<p:inputText id="txtTelefono" disabled="true" binding="#{terceroView.txtTelefono}"/>
+													<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+							<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{terceroView.txtIdEstado_Estado}"/>
+													<h:outputText id="msgTipoDocumentoId_TipoDocumento" value=" TipoDocumentoId_TipoDocumento"/>
+							<p:inputText id="txtTipoDocumentoId_TipoDocumento" disabled="true" binding="#{terceroView.txtTipoDocumentoId_TipoDocumento}"/>
+												
+										   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{terceroView.btnSave}" disabled="true" value="Save" action="#{terceroView.action_save()}" update="panelTercero,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{terceroView.btnDelete}" disabled="true" value="Delete" action="#{terceroView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelTercero,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{terceroView.action_clear()}" update="panelTercero,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+  </ui:define>
+</ui:composition>

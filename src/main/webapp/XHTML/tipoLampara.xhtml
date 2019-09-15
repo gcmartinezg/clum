@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">	
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelTipoLampara" header="TipoLampara">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgTipoLamparaId" value="TipoLamparaId"/>
+						 	<p:inputText id="txtTipoLamparaId" binding="#{tipoLamparaView.txtTipoLamparaId}">
+						 		<p:ajax update="panelTipoLampara,msg,panelBotones" listener="#{tipoLamparaView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgNombreTipoLampara" value=" NombreTipoLampara"/>
+							<p:inputText id="txtNombreTipoLampara" disabled="true" binding="#{tipoLamparaView.txtNombreTipoLampara}"/>
+													<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+							<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{tipoLamparaView.txtIdEstado_Estado}"/>
+												
+										   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{tipoLamparaView.btnSave}" disabled="true" value="Save" action="#{tipoLamparaView.action_save()}" update="panelTipoLampara,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{tipoLamparaView.btnDelete}" disabled="true" value="Delete" action="#{tipoLamparaView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelTipoLampara,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{tipoLamparaView.action_clear()}" update="panelTipoLampara,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+  </ui:define>
+</ui:composition>

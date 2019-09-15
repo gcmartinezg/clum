@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">	
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelTipoEspacioIluminado" header="TipoEspacioIluminado">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgTipoEspacioIluminadoId" value="TipoEspacioIluminadoId"/>
+						 	<p:inputText id="txtTipoEspacioIluminadoId" binding="#{tipoEspacioIluminadoView.txtTipoEspacioIluminadoId}">
+						 		<p:ajax update="panelTipoEspacioIluminado,msg,panelBotones" listener="#{tipoEspacioIluminadoView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgNombreTipoEspacioIluminado" value=" NombreTipoEspacioIluminado"/>
+							<p:inputText id="txtNombreTipoEspacioIluminado" disabled="true" binding="#{tipoEspacioIluminadoView.txtNombreTipoEspacioIluminado}"/>
+													<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+							<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{tipoEspacioIluminadoView.txtIdEstado_Estado}"/>
+												
+										   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{tipoEspacioIluminadoView.btnSave}" disabled="true" value="Save" action="#{tipoEspacioIluminadoView.action_save()}" update="panelTipoEspacioIluminado,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{tipoEspacioIluminadoView.btnDelete}" disabled="true" value="Delete" action="#{tipoEspacioIluminadoView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelTipoEspacioIluminado,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{tipoEspacioIluminadoView.action_clear()}" update="panelTipoEspacioIluminado,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+  </ui:define>
+</ui:composition>

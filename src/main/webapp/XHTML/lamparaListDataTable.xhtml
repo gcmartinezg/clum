@@ -1,0 +1,206 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableLampara" header="LamparaData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{lamparaView.data}" var="lampara"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{lampara.lamparaId}" sortBy="#{lampara.lamparaId}" >
+										 <f:facet name="header">
+										<h:outputText value="lamparaId"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.lamparaId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{lampara.controlEncendido}" sortBy="#{lampara.controlEncendido}" >
+										 <f:facet name="header">
+										<h:outputText value="ControlEncendido"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.controlEncendido}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lampara.funcionamiento}" sortBy="#{lampara.funcionamiento}" >
+										 <f:facet name="header">
+										<h:outputText value="Funcionamiento"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.funcionamiento}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lampara.latitudLampara}" sortBy="#{lampara.latitudLampara}" >
+										 <f:facet name="header">
+										<h:outputText value="LatitudLampara"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.latitudLampara}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lampara.longitudLampara}" sortBy="#{lampara.longitudLampara}" >
+										 <f:facet name="header">
+										<h:outputText value="LongitudLampara"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.longitudLampara}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lampara.nivelTension}" sortBy="#{lampara.nivelTension}" >
+										 <f:facet name="header">
+										<h:outputText value="NivelTension"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.nivelTension}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lampara.potencia}" sortBy="#{lampara.potencia}" >
+										 <f:facet name="header">
+										<h:outputText value="Potencia"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.potencia}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lampara.urlImagen}" sortBy="#{lampara.urlImagen}" >
+										 <f:facet name="header">
+										<h:outputText value="UrlImagen"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.urlImagen}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lampara.valorPerdidas}" sortBy="#{lampara.valorPerdidas}" >
+										 <f:facet name="header">
+										<h:outputText value="ValorPerdidas"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.valorPerdidas}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lampara.idEstado_Estado}" sortBy="#{lampara.idEstado_Estado}" >
+										 <f:facet name="header">
+										<h:outputText value="IdEstado_Estado"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.idEstado_Estado}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lampara.redAlimentacionId_RedAlimentacion}" sortBy="#{lampara.redAlimentacionId_RedAlimentacion}" >
+										 <f:facet name="header">
+										<h:outputText value="RedAlimentacionId_RedAlimentacion"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.redAlimentacionId_RedAlimentacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lampara.soporteLamparaId_SoporteLampara}" sortBy="#{lampara.soporteLamparaId_SoporteLampara}" >
+										 <f:facet name="header">
+										<h:outputText value="SoporteLamparaId_SoporteLampara"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.soporteLamparaId_SoporteLampara}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lampara.tipoBalastoId_TipoBalasto}" sortBy="#{lampara.tipoBalastoId_TipoBalasto}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoBalastoId_TipoBalasto"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.tipoBalastoId_TipoBalasto}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lampara.tipoEspacioIluminadoId_TipoEspacioIluminado}" sortBy="#{lampara.tipoEspacioIluminadoId_TipoEspacioIluminado}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoEspacioIluminadoId_TipoEspacioIluminado"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.tipoEspacioIluminadoId_TipoEspacioIluminado}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lampara.tipoLamparaId_TipoLampara}" sortBy="#{lampara.tipoLamparaId_TipoLampara}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoLamparaId_TipoLampara"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.tipoLamparaId_TipoLampara}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lampara.transformadorId_Transformador}" sortBy="#{lampara.transformadorId_Transformador}" >
+										 <f:facet name="header">
+										<h:outputText value="TransformadorId_Transformador"/>
+										</f:facet>
+										 <h:outputText value="#{lampara.transformadorId_Transformador}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogLampara"
+										actionListener="#{lamparaView.action_edit}">
+										<f:attribute name="selectedLampara" value="#{lampara}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{lamparaView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedLampara" value="#{lampara}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{lamparaView.action_new()}" update=":dialogLampara" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogLampara" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{lamparaView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelLampara" header="Lampara">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgLamparaId" value="LamparaId"/>
+									 <p:inputText id="txtLamparaId" binding="#{lamparaView.txtLamparaId}">
+									 <p:ajax update=":dialogLampara" listener="#{lamparaView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgControlEncendido" value=" ControlEncendido"/>
+									<p:inputText id="txtControlEncendido" disabled="true" binding="#{lamparaView.txtControlEncendido}"/>
+																		<h:outputText id="msgFuncionamiento" value=" Funcionamiento"/>
+									<p:inputText id="txtFuncionamiento" disabled="true" binding="#{lamparaView.txtFuncionamiento}"/>
+																		<h:outputText id="msgLatitudLampara" value=" LatitudLampara"/>
+									<p:inputText id="txtLatitudLampara" disabled="true" binding="#{lamparaView.txtLatitudLampara}"/>
+																		<h:outputText id="msgLongitudLampara" value=" LongitudLampara"/>
+									<p:inputText id="txtLongitudLampara" disabled="true" binding="#{lamparaView.txtLongitudLampara}"/>
+																		<h:outputText id="msgNivelTension" value=" NivelTension"/>
+									<p:inputText id="txtNivelTension" disabled="true" binding="#{lamparaView.txtNivelTension}"/>
+																		<h:outputText id="msgPotencia" value=" Potencia"/>
+									<p:inputText id="txtPotencia" disabled="true" binding="#{lamparaView.txtPotencia}"/>
+																		<h:outputText id="msgUrlImagen" value=" UrlImagen"/>
+									<p:inputText id="txtUrlImagen" disabled="true" binding="#{lamparaView.txtUrlImagen}"/>
+																		<h:outputText id="msgValorPerdidas" value=" ValorPerdidas"/>
+									<p:inputText id="txtValorPerdidas" disabled="true" binding="#{lamparaView.txtValorPerdidas}"/>
+																		<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+									<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{lamparaView.txtIdEstado_Estado}"/>
+																		<h:outputText id="msgRedAlimentacionId_RedAlimentacion" value=" RedAlimentacionId_RedAlimentacion"/>
+									<p:inputText id="txtRedAlimentacionId_RedAlimentacion" disabled="true" binding="#{lamparaView.txtRedAlimentacionId_RedAlimentacion}"/>
+																		<h:outputText id="msgSoporteLamparaId_SoporteLampara" value=" SoporteLamparaId_SoporteLampara"/>
+									<p:inputText id="txtSoporteLamparaId_SoporteLampara" disabled="true" binding="#{lamparaView.txtSoporteLamparaId_SoporteLampara}"/>
+																		<h:outputText id="msgTipoBalastoId_TipoBalasto" value=" TipoBalastoId_TipoBalasto"/>
+									<p:inputText id="txtTipoBalastoId_TipoBalasto" disabled="true" binding="#{lamparaView.txtTipoBalastoId_TipoBalasto}"/>
+																		<h:outputText id="msgTipoEspacioIluminadoId_TipoEspacioIluminado" value=" TipoEspacioIluminadoId_TipoEspacioIluminado"/>
+									<p:inputText id="txtTipoEspacioIluminadoId_TipoEspacioIluminado" disabled="true" binding="#{lamparaView.txtTipoEspacioIluminadoId_TipoEspacioIluminado}"/>
+																		<h:outputText id="msgTipoLamparaId_TipoLampara" value=" TipoLamparaId_TipoLampara"/>
+									<p:inputText id="txtTipoLamparaId_TipoLampara" disabled="true" binding="#{lamparaView.txtTipoLamparaId_TipoLampara}"/>
+																		<h:outputText id="msgTransformadorId_Transformador" value=" TransformadorId_Transformador"/>
+									<p:inputText id="txtTransformadorId_Transformador" disabled="true" binding="#{lamparaView.txtTransformadorId_Transformador}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{lamparaView.btnSave}" value="Save" action="#{lamparaView.action_save()}" update=":dialogLampara :frm:panelDataTableLampara" />
+									<p:commandButton id="btnClear" value="Clear" action="#{lamparaView.action_clear()}" update=":dialogLampara" />
+									<p:commandButton id="btnExit" value="Exit" action="#{lamparaView.action_closeDialog()}" update=":dialogLampara" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

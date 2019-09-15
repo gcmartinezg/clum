@@ -1,0 +1,119 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableLamparaRegistrada" header="LamparaRegistradaData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{lamparaRegistradaView.data}" var="lamparaRegistrada"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{lamparaRegistrada.lamparaRegistradaId}" sortBy="#{lamparaRegistrada.lamparaRegistradaId}" >
+										 <f:facet name="header">
+										<h:outputText value="lamparaRegistradaId"/>
+										</f:facet>
+										 <h:outputText value="#{lamparaRegistrada.lamparaRegistradaId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{lamparaRegistrada.fechaHora}" sortBy="#{lamparaRegistrada.fechaHora}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaHora"/>
+										</f:facet>
+										 <h:outputText value="#{lamparaRegistrada.fechaHora}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lamparaRegistrada.latitudPosActualTecnico}" sortBy="#{lamparaRegistrada.latitudPosActualTecnico}" >
+										 <f:facet name="header">
+										<h:outputText value="LatitudPosActualTecnico"/>
+										</f:facet>
+										 <h:outputText value="#{lamparaRegistrada.latitudPosActualTecnico}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lamparaRegistrada.longitudPosActualTecnico}" sortBy="#{lamparaRegistrada.longitudPosActualTecnico}" >
+										 <f:facet name="header">
+										<h:outputText value="LongitudPosActualTecnico"/>
+										</f:facet>
+										 <h:outputText value="#{lamparaRegistrada.longitudPosActualTecnico}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lamparaRegistrada.lamparaId_Lampara}" sortBy="#{lamparaRegistrada.lamparaId_Lampara}" >
+										 <f:facet name="header">
+										<h:outputText value="LamparaId_Lampara"/>
+										</f:facet>
+										 <h:outputText value="#{lamparaRegistrada.lamparaId_Lampara}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{lamparaRegistrada.usuarioId_Usuario}" sortBy="#{lamparaRegistrada.usuarioId_Usuario}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioId_Usuario"/>
+										</f:facet>
+										 <h:outputText value="#{lamparaRegistrada.usuarioId_Usuario}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogLamparaRegistrada"
+										actionListener="#{lamparaRegistradaView.action_edit}">
+										<f:attribute name="selectedLamparaRegistrada" value="#{lamparaRegistrada}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{lamparaRegistradaView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedLamparaRegistrada" value="#{lamparaRegistrada}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{lamparaRegistradaView.action_new()}" update=":dialogLamparaRegistrada" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogLamparaRegistrada" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{lamparaRegistradaView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelLamparaRegistrada" header="LamparaRegistrada">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgLamparaRegistradaId" value="LamparaRegistradaId"/>
+									 <p:inputText id="txtLamparaRegistradaId" binding="#{lamparaRegistradaView.txtLamparaRegistradaId}">
+									 <p:ajax update=":dialogLamparaRegistrada" listener="#{lamparaRegistradaView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgLatitudPosActualTecnico" value=" LatitudPosActualTecnico"/>
+									<p:inputText id="txtLatitudPosActualTecnico" disabled="true" binding="#{lamparaRegistradaView.txtLatitudPosActualTecnico}"/>
+																		<h:outputText id="msgLongitudPosActualTecnico" value=" LongitudPosActualTecnico"/>
+									<p:inputText id="txtLongitudPosActualTecnico" disabled="true" binding="#{lamparaRegistradaView.txtLongitudPosActualTecnico}"/>
+																		<h:outputText id="msgLamparaId_Lampara" value=" LamparaId_Lampara"/>
+									<p:inputText id="txtLamparaId_Lampara" disabled="true" binding="#{lamparaRegistradaView.txtLamparaId_Lampara}"/>
+																		<h:outputText id="msgUsuarioId_Usuario" value=" UsuarioId_Usuario"/>
+									<p:inputText id="txtUsuarioId_Usuario" disabled="true" binding="#{lamparaRegistradaView.txtUsuarioId_Usuario}"/>
+																		
+																													<h:outputText id="msgFechaHora" value=" FechaHora"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{lamparaRegistradaView.txtFechaHora}" >
+										<p:ajax event="dateSelect" listener="#{lamparaRegistradaView.listener_txtFechaHora}"  />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{lamparaRegistradaView.btnSave}" value="Save" action="#{lamparaRegistradaView.action_save()}" update=":dialogLamparaRegistrada :frm:panelDataTableLamparaRegistrada" />
+									<p:commandButton id="btnClear" value="Clear" action="#{lamparaRegistradaView.action_clear()}" update=":dialogLamparaRegistrada" />
+									<p:commandButton id="btnExit" value="Exit" action="#{lamparaRegistradaView.action_closeDialog()}" update=":dialogLamparaRegistrada" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

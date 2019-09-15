@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">	
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelSoporteLampara" header="SoporteLampara">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgSoporteLamparaId" value="SoporteLamparaId"/>
+						 	<p:inputText id="txtSoporteLamparaId" binding="#{soporteLamparaView.txtSoporteLamparaId}">
+						 		<p:ajax update="panelSoporteLampara,msg,panelBotones" listener="#{soporteLamparaView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgLongitud" value=" Longitud"/>
+							<p:inputText id="txtLongitud" disabled="true" binding="#{soporteLamparaView.txtLongitud}"/>
+													<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+							<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{soporteLamparaView.txtIdEstado_Estado}"/>
+													<h:outputText id="msgTipoMaterialId_TipoMaterial" value=" TipoMaterialId_TipoMaterial"/>
+							<p:inputText id="txtTipoMaterialId_TipoMaterial" disabled="true" binding="#{soporteLamparaView.txtTipoMaterialId_TipoMaterial}"/>
+													<h:outputText id="msgTipoSoporteId_TipoSoporte" value=" TipoSoporteId_TipoSoporte"/>
+							<p:inputText id="txtTipoSoporteId_TipoSoporte" disabled="true" binding="#{soporteLamparaView.txtTipoSoporteId_TipoSoporte}"/>
+												
+										   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{soporteLamparaView.btnSave}" disabled="true" value="Save" action="#{soporteLamparaView.action_save()}" update="panelSoporteLampara,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{soporteLamparaView.btnDelete}" disabled="true" value="Delete" action="#{soporteLamparaView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelSoporteLampara,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{soporteLamparaView.action_clear()}" update="panelSoporteLampara,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+  </ui:define>
+</ui:composition>

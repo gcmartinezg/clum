@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableSoporteLampara" header="SoporteLamparaData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{soporteLamparaView.data}" var="soporteLampara"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{soporteLampara.soporteLamparaId}" sortBy="#{soporteLampara.soporteLamparaId}" >
+										 <f:facet name="header">
+										<h:outputText value="soporteLamparaId"/>
+										</f:facet>
+										 <h:outputText value="#{soporteLampara.soporteLamparaId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{soporteLampara.longitud}" sortBy="#{soporteLampara.longitud}" >
+										 <f:facet name="header">
+										<h:outputText value="Longitud"/>
+										</f:facet>
+										 <h:outputText value="#{soporteLampara.longitud}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{soporteLampara.idEstado_Estado}" sortBy="#{soporteLampara.idEstado_Estado}" >
+										 <f:facet name="header">
+										<h:outputText value="IdEstado_Estado"/>
+										</f:facet>
+										 <h:outputText value="#{soporteLampara.idEstado_Estado}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{soporteLampara.tipoMaterialId_TipoMaterial}" sortBy="#{soporteLampara.tipoMaterialId_TipoMaterial}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoMaterialId_TipoMaterial"/>
+										</f:facet>
+										 <h:outputText value="#{soporteLampara.tipoMaterialId_TipoMaterial}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{soporteLampara.tipoSoporteId_TipoSoporte}" sortBy="#{soporteLampara.tipoSoporteId_TipoSoporte}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoSoporteId_TipoSoporte"/>
+										</f:facet>
+										 <h:outputText value="#{soporteLampara.tipoSoporteId_TipoSoporte}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogSoporteLampara"
+										actionListener="#{soporteLamparaView.action_edit}">
+										<f:attribute name="selectedSoporteLampara" value="#{soporteLampara}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{soporteLamparaView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedSoporteLampara" value="#{soporteLampara}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{soporteLamparaView.action_new()}" update=":dialogSoporteLampara" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogSoporteLampara" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{soporteLamparaView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelSoporteLampara" header="SoporteLampara">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgSoporteLamparaId" value="SoporteLamparaId"/>
+									 <p:inputText id="txtSoporteLamparaId" binding="#{soporteLamparaView.txtSoporteLamparaId}">
+									 <p:ajax update=":dialogSoporteLampara" listener="#{soporteLamparaView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgLongitud" value=" Longitud"/>
+									<p:inputText id="txtLongitud" disabled="true" binding="#{soporteLamparaView.txtLongitud}"/>
+																		<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+									<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{soporteLamparaView.txtIdEstado_Estado}"/>
+																		<h:outputText id="msgTipoMaterialId_TipoMaterial" value=" TipoMaterialId_TipoMaterial"/>
+									<p:inputText id="txtTipoMaterialId_TipoMaterial" disabled="true" binding="#{soporteLamparaView.txtTipoMaterialId_TipoMaterial}"/>
+																		<h:outputText id="msgTipoSoporteId_TipoSoporte" value=" TipoSoporteId_TipoSoporte"/>
+									<p:inputText id="txtTipoSoporteId_TipoSoporte" disabled="true" binding="#{soporteLamparaView.txtTipoSoporteId_TipoSoporte}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{soporteLamparaView.btnSave}" value="Save" action="#{soporteLamparaView.action_save()}" update=":dialogSoporteLampara :frm:panelDataTableSoporteLampara" />
+									<p:commandButton id="btnClear" value="Clear" action="#{soporteLamparaView.action_clear()}" update=":dialogSoporteLampara" />
+									<p:commandButton id="btnExit" value="Exit" action="#{soporteLamparaView.action_closeDialog()}" update=":dialogSoporteLampara" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

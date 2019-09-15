@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableEstado" header="EstadoData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{estadoView.data}" var="estado"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{estado.idEstado}" sortBy="#{estado.idEstado}" >
+										 <f:facet name="header">
+										<h:outputText value="idEstado"/>
+										</f:facet>
+										 <h:outputText value="#{estado.idEstado}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{estado.estado}" sortBy="#{estado.estado}" >
+										 <f:facet name="header">
+										<h:outputText value="Estado"/>
+										</f:facet>
+										 <h:outputText value="#{estado.estado}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogEstado"
+										actionListener="#{estadoView.action_edit}">
+										<f:attribute name="selectedEstado" value="#{estado}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{estadoView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedEstado" value="#{estado}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{estadoView.action_new()}" update=":dialogEstado" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogEstado" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{estadoView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelEstado" header="Estado">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgIdEstado" value="IdEstado"/>
+									 <p:inputText id="txtIdEstado" binding="#{estadoView.txtIdEstado}">
+									 <p:ajax update=":dialogEstado" listener="#{estadoView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgEstado" value=" Estado"/>
+									<p:inputText id="txtEstado" disabled="true" binding="#{estadoView.txtEstado}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{estadoView.btnSave}" value="Save" action="#{estadoView.action_save()}" update=":dialogEstado :frm:panelDataTableEstado" />
+									<p:commandButton id="btnClear" value="Clear" action="#{estadoView.action_clear()}" update=":dialogEstado" />
+									<p:commandButton id="btnExit" value="Exit" action="#{estadoView.action_closeDialog()}" update=":dialogEstado" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

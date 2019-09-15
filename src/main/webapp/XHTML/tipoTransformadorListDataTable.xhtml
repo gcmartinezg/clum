@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableTipoTransformador" header="TipoTransformadorData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{tipoTransformadorView.data}" var="tipoTransformador"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{tipoTransformador.tipoTransformadorId}" sortBy="#{tipoTransformador.tipoTransformadorId}" >
+										 <f:facet name="header">
+										<h:outputText value="tipoTransformadorId"/>
+										</f:facet>
+										 <h:outputText value="#{tipoTransformador.tipoTransformadorId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{tipoTransformador.nombreTipoTransformador}" sortBy="#{tipoTransformador.nombreTipoTransformador}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreTipoTransformador"/>
+										</f:facet>
+										 <h:outputText value="#{tipoTransformador.nombreTipoTransformador}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoTransformador.idEstado_Estado}" sortBy="#{tipoTransformador.idEstado_Estado}" >
+										 <f:facet name="header">
+										<h:outputText value="IdEstado_Estado"/>
+										</f:facet>
+										 <h:outputText value="#{tipoTransformador.idEstado_Estado}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogTipoTransformador"
+										actionListener="#{tipoTransformadorView.action_edit}">
+										<f:attribute name="selectedTipoTransformador" value="#{tipoTransformador}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{tipoTransformadorView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedTipoTransformador" value="#{tipoTransformador}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{tipoTransformadorView.action_new()}" update=":dialogTipoTransformador" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogTipoTransformador" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{tipoTransformadorView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelTipoTransformador" header="TipoTransformador">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgTipoTransformadorId" value="TipoTransformadorId"/>
+									 <p:inputText id="txtTipoTransformadorId" binding="#{tipoTransformadorView.txtTipoTransformadorId}">
+									 <p:ajax update=":dialogTipoTransformador" listener="#{tipoTransformadorView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgNombreTipoTransformador" value=" NombreTipoTransformador"/>
+									<p:inputText id="txtNombreTipoTransformador" disabled="true" binding="#{tipoTransformadorView.txtNombreTipoTransformador}"/>
+																		<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+									<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{tipoTransformadorView.txtIdEstado_Estado}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{tipoTransformadorView.btnSave}" value="Save" action="#{tipoTransformadorView.action_save()}" update=":dialogTipoTransformador :frm:panelDataTableTipoTransformador" />
+									<p:commandButton id="btnClear" value="Clear" action="#{tipoTransformadorView.action_clear()}" update=":dialogTipoTransformador" />
+									<p:commandButton id="btnExit" value="Exit" action="#{tipoTransformadorView.action_closeDialog()}" update=":dialogTipoTransformador" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">	
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelLampara" header="Lampara">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgLamparaId" value="LamparaId"/>
+						 	<p:inputText id="txtLamparaId" binding="#{lamparaView.txtLamparaId}">
+						 		<p:ajax update="panelLampara,msg,panelBotones" listener="#{lamparaView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgControlEncendido" value=" ControlEncendido"/>
+							<p:inputText id="txtControlEncendido" disabled="true" binding="#{lamparaView.txtControlEncendido}"/>
+													<h:outputText id="msgFuncionamiento" value=" Funcionamiento"/>
+							<p:inputText id="txtFuncionamiento" disabled="true" binding="#{lamparaView.txtFuncionamiento}"/>
+													<h:outputText id="msgLatitudLampara" value=" LatitudLampara"/>
+							<p:inputText id="txtLatitudLampara" disabled="true" binding="#{lamparaView.txtLatitudLampara}"/>
+													<h:outputText id="msgLongitudLampara" value=" LongitudLampara"/>
+							<p:inputText id="txtLongitudLampara" disabled="true" binding="#{lamparaView.txtLongitudLampara}"/>
+													<h:outputText id="msgNivelTension" value=" NivelTension"/>
+							<p:inputText id="txtNivelTension" disabled="true" binding="#{lamparaView.txtNivelTension}"/>
+													<h:outputText id="msgPotencia" value=" Potencia"/>
+							<p:inputText id="txtPotencia" disabled="true" binding="#{lamparaView.txtPotencia}"/>
+													<h:outputText id="msgUrlImagen" value=" UrlImagen"/>
+							<p:inputText id="txtUrlImagen" disabled="true" binding="#{lamparaView.txtUrlImagen}"/>
+													<h:outputText id="msgValorPerdidas" value=" ValorPerdidas"/>
+							<p:inputText id="txtValorPerdidas" disabled="true" binding="#{lamparaView.txtValorPerdidas}"/>
+													<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+							<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{lamparaView.txtIdEstado_Estado}"/>
+													<h:outputText id="msgRedAlimentacionId_RedAlimentacion" value=" RedAlimentacionId_RedAlimentacion"/>
+							<p:inputText id="txtRedAlimentacionId_RedAlimentacion" disabled="true" binding="#{lamparaView.txtRedAlimentacionId_RedAlimentacion}"/>
+													<h:outputText id="msgSoporteLamparaId_SoporteLampara" value=" SoporteLamparaId_SoporteLampara"/>
+							<p:inputText id="txtSoporteLamparaId_SoporteLampara" disabled="true" binding="#{lamparaView.txtSoporteLamparaId_SoporteLampara}"/>
+													<h:outputText id="msgTipoBalastoId_TipoBalasto" value=" TipoBalastoId_TipoBalasto"/>
+							<p:inputText id="txtTipoBalastoId_TipoBalasto" disabled="true" binding="#{lamparaView.txtTipoBalastoId_TipoBalasto}"/>
+													<h:outputText id="msgTipoEspacioIluminadoId_TipoEspacioIluminado" value=" TipoEspacioIluminadoId_TipoEspacioIluminado"/>
+							<p:inputText id="txtTipoEspacioIluminadoId_TipoEspacioIluminado" disabled="true" binding="#{lamparaView.txtTipoEspacioIluminadoId_TipoEspacioIluminado}"/>
+													<h:outputText id="msgTipoLamparaId_TipoLampara" value=" TipoLamparaId_TipoLampara"/>
+							<p:inputText id="txtTipoLamparaId_TipoLampara" disabled="true" binding="#{lamparaView.txtTipoLamparaId_TipoLampara}"/>
+													<h:outputText id="msgTransformadorId_Transformador" value=" TransformadorId_Transformador"/>
+							<p:inputText id="txtTransformadorId_Transformador" disabled="true" binding="#{lamparaView.txtTransformadorId_Transformador}"/>
+												
+										   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{lamparaView.btnSave}" disabled="true" value="Save" action="#{lamparaView.action_save()}" update="panelLampara,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{lamparaView.btnDelete}" disabled="true" value="Delete" action="#{lamparaView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelLampara,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{lamparaView.action_clear()}" update="panelLampara,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+  </ui:define>
+</ui:composition>

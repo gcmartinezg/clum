@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableTipoLampara" header="TipoLamparaData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{tipoLamparaView.data}" var="tipoLampara"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{tipoLampara.tipoLamparaId}" sortBy="#{tipoLampara.tipoLamparaId}" >
+										 <f:facet name="header">
+										<h:outputText value="tipoLamparaId"/>
+										</f:facet>
+										 <h:outputText value="#{tipoLampara.tipoLamparaId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{tipoLampara.nombreTipoLampara}" sortBy="#{tipoLampara.nombreTipoLampara}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreTipoLampara"/>
+										</f:facet>
+										 <h:outputText value="#{tipoLampara.nombreTipoLampara}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoLampara.idEstado_Estado}" sortBy="#{tipoLampara.idEstado_Estado}" >
+										 <f:facet name="header">
+										<h:outputText value="IdEstado_Estado"/>
+										</f:facet>
+										 <h:outputText value="#{tipoLampara.idEstado_Estado}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogTipoLampara"
+										actionListener="#{tipoLamparaView.action_edit}">
+										<f:attribute name="selectedTipoLampara" value="#{tipoLampara}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{tipoLamparaView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedTipoLampara" value="#{tipoLampara}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{tipoLamparaView.action_new()}" update=":dialogTipoLampara" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogTipoLampara" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{tipoLamparaView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelTipoLampara" header="TipoLampara">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgTipoLamparaId" value="TipoLamparaId"/>
+									 <p:inputText id="txtTipoLamparaId" binding="#{tipoLamparaView.txtTipoLamparaId}">
+									 <p:ajax update=":dialogTipoLampara" listener="#{tipoLamparaView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgNombreTipoLampara" value=" NombreTipoLampara"/>
+									<p:inputText id="txtNombreTipoLampara" disabled="true" binding="#{tipoLamparaView.txtNombreTipoLampara}"/>
+																		<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+									<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{tipoLamparaView.txtIdEstado_Estado}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{tipoLamparaView.btnSave}" value="Save" action="#{tipoLamparaView.action_save()}" update=":dialogTipoLampara :frm:panelDataTableTipoLampara" />
+									<p:commandButton id="btnClear" value="Clear" action="#{tipoLamparaView.action_clear()}" update=":dialogTipoLampara" />
+									<p:commandButton id="btnExit" value="Exit" action="#{tipoLamparaView.action_closeDialog()}" update=":dialogTipoLampara" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

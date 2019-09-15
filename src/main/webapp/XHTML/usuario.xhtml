@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">	
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelUsuario" header="Usuario">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgUsuarioId" value="UsuarioId"/>
+						 	<p:inputText id="txtUsuarioId" binding="#{usuarioView.txtUsuarioId}">
+						 		<p:ajax update="panelUsuario,msg,panelBotones" listener="#{usuarioView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgContrasenia" value=" Contrasenia"/>
+							<p:inputText id="txtContrasenia" disabled="true" binding="#{usuarioView.txtContrasenia}"/>
+													<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+							<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{usuarioView.txtIdEstado_Estado}"/>
+													<h:outputText id="msgTerceroId_Tercero" value=" TerceroId_Tercero"/>
+							<p:inputText id="txtTerceroId_Tercero" disabled="true" binding="#{usuarioView.txtTerceroId_Tercero}"/>
+													<h:outputText id="msgTipoUsuarioId_TipoUsuario" value=" TipoUsuarioId_TipoUsuario"/>
+							<p:inputText id="txtTipoUsuarioId_TipoUsuario" disabled="true" binding="#{usuarioView.txtTipoUsuarioId_TipoUsuario}"/>
+												
+										   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{usuarioView.btnSave}" disabled="true" value="Save" action="#{usuarioView.action_save()}" update="panelUsuario,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{usuarioView.btnDelete}" disabled="true" value="Delete" action="#{usuarioView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelUsuario,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{usuarioView.action_clear()}" update="panelUsuario,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+  </ui:define>
+</ui:composition>

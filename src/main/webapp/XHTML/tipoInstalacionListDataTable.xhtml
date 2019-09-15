@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableTipoInstalacion" header="TipoInstalacionData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{tipoInstalacionView.data}" var="tipoInstalacion"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{tipoInstalacion.tipoInstalacionId}" sortBy="#{tipoInstalacion.tipoInstalacionId}" >
+										 <f:facet name="header">
+										<h:outputText value="tipoInstalacionId"/>
+										</f:facet>
+										 <h:outputText value="#{tipoInstalacion.tipoInstalacionId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{tipoInstalacion.nombreTipoInstalacion}" sortBy="#{tipoInstalacion.nombreTipoInstalacion}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreTipoInstalacion"/>
+										</f:facet>
+										 <h:outputText value="#{tipoInstalacion.nombreTipoInstalacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoInstalacion.idEstado_Estado}" sortBy="#{tipoInstalacion.idEstado_Estado}" >
+										 <f:facet name="header">
+										<h:outputText value="IdEstado_Estado"/>
+										</f:facet>
+										 <h:outputText value="#{tipoInstalacion.idEstado_Estado}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogTipoInstalacion"
+										actionListener="#{tipoInstalacionView.action_edit}">
+										<f:attribute name="selectedTipoInstalacion" value="#{tipoInstalacion}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{tipoInstalacionView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedTipoInstalacion" value="#{tipoInstalacion}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{tipoInstalacionView.action_new()}" update=":dialogTipoInstalacion" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogTipoInstalacion" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{tipoInstalacionView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelTipoInstalacion" header="TipoInstalacion">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgTipoInstalacionId" value="TipoInstalacionId"/>
+									 <p:inputText id="txtTipoInstalacionId" binding="#{tipoInstalacionView.txtTipoInstalacionId}">
+									 <p:ajax update=":dialogTipoInstalacion" listener="#{tipoInstalacionView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgNombreTipoInstalacion" value=" NombreTipoInstalacion"/>
+									<p:inputText id="txtNombreTipoInstalacion" disabled="true" binding="#{tipoInstalacionView.txtNombreTipoInstalacion}"/>
+																		<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+									<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{tipoInstalacionView.txtIdEstado_Estado}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{tipoInstalacionView.btnSave}" value="Save" action="#{tipoInstalacionView.action_save()}" update=":dialogTipoInstalacion :frm:panelDataTableTipoInstalacion" />
+									<p:commandButton id="btnClear" value="Clear" action="#{tipoInstalacionView.action_clear()}" update=":dialogTipoInstalacion" />
+									<p:commandButton id="btnExit" value="Exit" action="#{tipoInstalacionView.action_closeDialog()}" update=":dialogTipoInstalacion" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

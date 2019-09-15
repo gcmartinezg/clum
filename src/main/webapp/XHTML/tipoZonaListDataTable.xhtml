@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableTipoZona" header="TipoZonaData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{tipoZonaView.data}" var="tipoZona"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{tipoZona.tipoZonaId}" sortBy="#{tipoZona.tipoZonaId}" >
+										 <f:facet name="header">
+										<h:outputText value="tipoZonaId"/>
+										</f:facet>
+										 <h:outputText value="#{tipoZona.tipoZonaId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{tipoZona.nombreTipoZona}" sortBy="#{tipoZona.nombreTipoZona}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreTipoZona"/>
+										</f:facet>
+										 <h:outputText value="#{tipoZona.nombreTipoZona}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoZona.idEstado_Estado}" sortBy="#{tipoZona.idEstado_Estado}" >
+										 <f:facet name="header">
+										<h:outputText value="IdEstado_Estado"/>
+										</f:facet>
+										 <h:outputText value="#{tipoZona.idEstado_Estado}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogTipoZona"
+										actionListener="#{tipoZonaView.action_edit}">
+										<f:attribute name="selectedTipoZona" value="#{tipoZona}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{tipoZonaView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedTipoZona" value="#{tipoZona}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{tipoZonaView.action_new()}" update=":dialogTipoZona" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogTipoZona" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{tipoZonaView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelTipoZona" header="TipoZona">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgTipoZonaId" value="TipoZonaId"/>
+									 <p:inputText id="txtTipoZonaId" binding="#{tipoZonaView.txtTipoZonaId}">
+									 <p:ajax update=":dialogTipoZona" listener="#{tipoZonaView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgNombreTipoZona" value=" NombreTipoZona"/>
+									<p:inputText id="txtNombreTipoZona" disabled="true" binding="#{tipoZonaView.txtNombreTipoZona}"/>
+																		<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+									<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{tipoZonaView.txtIdEstado_Estado}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{tipoZonaView.btnSave}" value="Save" action="#{tipoZonaView.action_save()}" update=":dialogTipoZona :frm:panelDataTableTipoZona" />
+									<p:commandButton id="btnClear" value="Clear" action="#{tipoZonaView.action_clear()}" update=":dialogTipoZona" />
+									<p:commandButton id="btnExit" value="Exit" action="#{tipoZonaView.action_closeDialog()}" update=":dialogTipoZona" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

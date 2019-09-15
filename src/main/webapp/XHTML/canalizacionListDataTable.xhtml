@@ -1,0 +1,125 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableCanalizacion" header="CanalizacionData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{canalizacionView.data}" var="canalizacion"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{canalizacion.canalizacionId}" sortBy="#{canalizacion.canalizacionId}" >
+										 <f:facet name="header">
+										<h:outputText value="canalizacionId"/>
+										</f:facet>
+										 <h:outputText value="#{canalizacion.canalizacionId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{canalizacion.cajaInspeccion}" sortBy="#{canalizacion.cajaInspeccion}" >
+										 <f:facet name="header">
+										<h:outputText value="CajaInspeccion"/>
+										</f:facet>
+										 <h:outputText value="#{canalizacion.cajaInspeccion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{canalizacion.ducteria}" sortBy="#{canalizacion.ducteria}" >
+										 <f:facet name="header">
+										<h:outputText value="Ducteria"/>
+										</f:facet>
+										 <h:outputText value="#{canalizacion.ducteria}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{canalizacion.idEstado_Estado}" sortBy="#{canalizacion.idEstado_Estado}" >
+										 <f:facet name="header">
+										<h:outputText value="IdEstado_Estado"/>
+										</f:facet>
+										 <h:outputText value="#{canalizacion.idEstado_Estado}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{canalizacion.lamparaId_Lampara}" sortBy="#{canalizacion.lamparaId_Lampara}" >
+										 <f:facet name="header">
+										<h:outputText value="LamparaId_Lampara"/>
+										</f:facet>
+										 <h:outputText value="#{canalizacion.lamparaId_Lampara}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{canalizacion.tipoSoporteId_TipoSoporte}" sortBy="#{canalizacion.tipoSoporteId_TipoSoporte}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoSoporteId_TipoSoporte"/>
+										</f:facet>
+										 <h:outputText value="#{canalizacion.tipoSoporteId_TipoSoporte}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{canalizacion.tipoZonaId_TipoZona}" sortBy="#{canalizacion.tipoZonaId_TipoZona}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoZonaId_TipoZona"/>
+										</f:facet>
+										 <h:outputText value="#{canalizacion.tipoZonaId_TipoZona}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogCanalizacion"
+										actionListener="#{canalizacionView.action_edit}">
+										<f:attribute name="selectedCanalizacion" value="#{canalizacion}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{canalizacionView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedCanalizacion" value="#{canalizacion}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{canalizacionView.action_new()}" update=":dialogCanalizacion" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogCanalizacion" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{canalizacionView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelCanalizacion" header="Canalizacion">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgCanalizacionId" value="CanalizacionId"/>
+									 <p:inputText id="txtCanalizacionId" binding="#{canalizacionView.txtCanalizacionId}">
+									 <p:ajax update=":dialogCanalizacion" listener="#{canalizacionView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgCajaInspeccion" value=" CajaInspeccion"/>
+									<p:inputText id="txtCajaInspeccion" disabled="true" binding="#{canalizacionView.txtCajaInspeccion}"/>
+																		<h:outputText id="msgDucteria" value=" Ducteria"/>
+									<p:inputText id="txtDucteria" disabled="true" binding="#{canalizacionView.txtDucteria}"/>
+																		<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+									<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{canalizacionView.txtIdEstado_Estado}"/>
+																		<h:outputText id="msgLamparaId_Lampara" value=" LamparaId_Lampara"/>
+									<p:inputText id="txtLamparaId_Lampara" disabled="true" binding="#{canalizacionView.txtLamparaId_Lampara}"/>
+																		<h:outputText id="msgTipoSoporteId_TipoSoporte" value=" TipoSoporteId_TipoSoporte"/>
+									<p:inputText id="txtTipoSoporteId_TipoSoporte" disabled="true" binding="#{canalizacionView.txtTipoSoporteId_TipoSoporte}"/>
+																		<h:outputText id="msgTipoZonaId_TipoZona" value=" TipoZonaId_TipoZona"/>
+									<p:inputText id="txtTipoZonaId_TipoZona" disabled="true" binding="#{canalizacionView.txtTipoZonaId_TipoZona}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{canalizacionView.btnSave}" value="Save" action="#{canalizacionView.action_save()}" update=":dialogCanalizacion :frm:panelDataTableCanalizacion" />
+									<p:commandButton id="btnClear" value="Clear" action="#{canalizacionView.action_clear()}" update=":dialogCanalizacion" />
+									<p:commandButton id="btnExit" value="Exit" action="#{canalizacionView.action_closeDialog()}" update=":dialogCanalizacion" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

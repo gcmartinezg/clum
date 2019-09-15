@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableUsuario" header="UsuarioData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{usuarioView.data}" var="usuario"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{usuario.usuarioId}" sortBy="#{usuario.usuarioId}" >
+										 <f:facet name="header">
+										<h:outputText value="usuarioId"/>
+										</f:facet>
+										 <h:outputText value="#{usuario.usuarioId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{usuario.contrasenia}" sortBy="#{usuario.contrasenia}" >
+										 <f:facet name="header">
+										<h:outputText value="Contrasenia"/>
+										</f:facet>
+										 <h:outputText value="#{usuario.contrasenia}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuario.idEstado_Estado}" sortBy="#{usuario.idEstado_Estado}" >
+										 <f:facet name="header">
+										<h:outputText value="IdEstado_Estado"/>
+										</f:facet>
+										 <h:outputText value="#{usuario.idEstado_Estado}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuario.terceroId_Tercero}" sortBy="#{usuario.terceroId_Tercero}" >
+										 <f:facet name="header">
+										<h:outputText value="TerceroId_Tercero"/>
+										</f:facet>
+										 <h:outputText value="#{usuario.terceroId_Tercero}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuario.tipoUsuarioId_TipoUsuario}" sortBy="#{usuario.tipoUsuarioId_TipoUsuario}" >
+										 <f:facet name="header">
+										<h:outputText value="TipoUsuarioId_TipoUsuario"/>
+										</f:facet>
+										 <h:outputText value="#{usuario.tipoUsuarioId_TipoUsuario}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogUsuario"
+										actionListener="#{usuarioView.action_edit}">
+										<f:attribute name="selectedUsuario" value="#{usuario}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{usuarioView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedUsuario" value="#{usuario}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{usuarioView.action_new()}" update=":dialogUsuario" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogUsuario" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{usuarioView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelUsuario" header="Usuario">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgUsuarioId" value="UsuarioId"/>
+									 <p:inputText id="txtUsuarioId" binding="#{usuarioView.txtUsuarioId}">
+									 <p:ajax update=":dialogUsuario" listener="#{usuarioView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgContrasenia" value=" Contrasenia"/>
+									<p:inputText id="txtContrasenia" disabled="true" binding="#{usuarioView.txtContrasenia}"/>
+																		<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+									<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{usuarioView.txtIdEstado_Estado}"/>
+																		<h:outputText id="msgTerceroId_Tercero" value=" TerceroId_Tercero"/>
+									<p:inputText id="txtTerceroId_Tercero" disabled="true" binding="#{usuarioView.txtTerceroId_Tercero}"/>
+																		<h:outputText id="msgTipoUsuarioId_TipoUsuario" value=" TipoUsuarioId_TipoUsuario"/>
+									<p:inputText id="txtTipoUsuarioId_TipoUsuario" disabled="true" binding="#{usuarioView.txtTipoUsuarioId_TipoUsuario}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{usuarioView.btnSave}" value="Save" action="#{usuarioView.action_save()}" update=":dialogUsuario :frm:panelDataTableUsuario" />
+									<p:commandButton id="btnClear" value="Clear" action="#{usuarioView.action_clear()}" update=":dialogUsuario" />
+									<p:commandButton id="btnExit" value="Exit" action="#{usuarioView.action_closeDialog()}" update=":dialogUsuario" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

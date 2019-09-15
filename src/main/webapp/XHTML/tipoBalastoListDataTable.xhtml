@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableTipoBalasto" header="TipoBalastoData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{tipoBalastoView.data}" var="tipoBalasto"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{tipoBalasto.tipoBalastoId}" sortBy="#{tipoBalasto.tipoBalastoId}" >
+										 <f:facet name="header">
+										<h:outputText value="tipoBalastoId"/>
+										</f:facet>
+										 <h:outputText value="#{tipoBalasto.tipoBalastoId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{tipoBalasto.nombreTipoBalasto}" sortBy="#{tipoBalasto.nombreTipoBalasto}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreTipoBalasto"/>
+										</f:facet>
+										 <h:outputText value="#{tipoBalasto.nombreTipoBalasto}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoBalasto.idEstado_Estado}" sortBy="#{tipoBalasto.idEstado_Estado}" >
+										 <f:facet name="header">
+										<h:outputText value="IdEstado_Estado"/>
+										</f:facet>
+										 <h:outputText value="#{tipoBalasto.idEstado_Estado}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogTipoBalasto"
+										actionListener="#{tipoBalastoView.action_edit}">
+										<f:attribute name="selectedTipoBalasto" value="#{tipoBalasto}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{tipoBalastoView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedTipoBalasto" value="#{tipoBalasto}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{tipoBalastoView.action_new()}" update=":dialogTipoBalasto" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogTipoBalasto" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{tipoBalastoView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelTipoBalasto" header="TipoBalasto">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgTipoBalastoId" value="TipoBalastoId"/>
+									 <p:inputText id="txtTipoBalastoId" binding="#{tipoBalastoView.txtTipoBalastoId}">
+									 <p:ajax update=":dialogTipoBalasto" listener="#{tipoBalastoView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgNombreTipoBalasto" value=" NombreTipoBalasto"/>
+									<p:inputText id="txtNombreTipoBalasto" disabled="true" binding="#{tipoBalastoView.txtNombreTipoBalasto}"/>
+																		<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+									<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{tipoBalastoView.txtIdEstado_Estado}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{tipoBalastoView.btnSave}" value="Save" action="#{tipoBalastoView.action_save()}" update=":dialogTipoBalasto :frm:panelDataTableTipoBalasto" />
+									<p:commandButton id="btnClear" value="Clear" action="#{tipoBalastoView.action_clear()}" update=":dialogTipoBalasto" />
+									<p:commandButton id="btnExit" value="Exit" action="#{tipoBalastoView.action_closeDialog()}" update=":dialogTipoBalasto" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

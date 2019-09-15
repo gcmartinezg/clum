@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableTipoSoporte" header="TipoSoporteData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{tipoSoporteView.data}" var="tipoSoporte"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{tipoSoporte.tipoSoporteId}" sortBy="#{tipoSoporte.tipoSoporteId}" >
+										 <f:facet name="header">
+										<h:outputText value="tipoSoporteId"/>
+										</f:facet>
+										 <h:outputText value="#{tipoSoporte.tipoSoporteId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{tipoSoporte.nombreTipoSoporte}" sortBy="#{tipoSoporte.nombreTipoSoporte}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreTipoSoporte"/>
+										</f:facet>
+										 <h:outputText value="#{tipoSoporte.nombreTipoSoporte}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoSoporte.idEstado_Estado}" sortBy="#{tipoSoporte.idEstado_Estado}" >
+										 <f:facet name="header">
+										<h:outputText value="IdEstado_Estado"/>
+										</f:facet>
+										 <h:outputText value="#{tipoSoporte.idEstado_Estado}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogTipoSoporte"
+										actionListener="#{tipoSoporteView.action_edit}">
+										<f:attribute name="selectedTipoSoporte" value="#{tipoSoporte}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{tipoSoporteView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedTipoSoporte" value="#{tipoSoporte}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{tipoSoporteView.action_new()}" update=":dialogTipoSoporte" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogTipoSoporte" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{tipoSoporteView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelTipoSoporte" header="TipoSoporte">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgTipoSoporteId" value="TipoSoporteId"/>
+									 <p:inputText id="txtTipoSoporteId" binding="#{tipoSoporteView.txtTipoSoporteId}">
+									 <p:ajax update=":dialogTipoSoporte" listener="#{tipoSoporteView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgNombreTipoSoporte" value=" NombreTipoSoporte"/>
+									<p:inputText id="txtNombreTipoSoporte" disabled="true" binding="#{tipoSoporteView.txtNombreTipoSoporte}"/>
+																		<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+									<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{tipoSoporteView.txtIdEstado_Estado}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{tipoSoporteView.btnSave}" value="Save" action="#{tipoSoporteView.action_save()}" update=":dialogTipoSoporte :frm:panelDataTableTipoSoporte" />
+									<p:commandButton id="btnClear" value="Clear" action="#{tipoSoporteView.action_clear()}" update=":dialogTipoSoporte" />
+									<p:commandButton id="btnExit" value="Exit" action="#{tipoSoporteView.action_closeDialog()}" update=":dialogTipoSoporte" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

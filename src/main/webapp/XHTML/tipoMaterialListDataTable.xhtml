@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">		
+
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableTipoMaterial" header="TipoMaterialData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{tipoMaterialView.data}" var="tipoMaterial"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{tipoMaterial.tipoMaterialId}" sortBy="#{tipoMaterial.tipoMaterialId}" >
+										 <f:facet name="header">
+										<h:outputText value="tipoMaterialId"/>
+										</f:facet>
+										 <h:outputText value="#{tipoMaterial.tipoMaterialId}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{tipoMaterial.nombreTipoMaterial}" sortBy="#{tipoMaterial.nombreTipoMaterial}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreTipoMaterial"/>
+										</f:facet>
+										 <h:outputText value="#{tipoMaterial.nombreTipoMaterial}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoMaterial.idEstado_Estado}" sortBy="#{tipoMaterial.idEstado_Estado}" >
+										 <f:facet name="header">
+										<h:outputText value="IdEstado_Estado"/>
+										</f:facet>
+										 <h:outputText value="#{tipoMaterial.idEstado_Estado}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogTipoMaterial"
+										actionListener="#{tipoMaterialView.action_edit}">
+										<f:attribute name="selectedTipoMaterial" value="#{tipoMaterial}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{tipoMaterialView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedTipoMaterial" value="#{tipoMaterial}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{tipoMaterialView.action_new()}" update=":dialogTipoMaterial" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogTipoMaterial" appendTo="@(body)" draggable="true"
+						closable="false" visible="#{tipoMaterialView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" />
+							<p:panel id="panelTipoMaterial" header="TipoMaterial">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgTipoMaterialId" value="TipoMaterialId"/>
+									 <p:inputText id="txtTipoMaterialId" binding="#{tipoMaterialView.txtTipoMaterialId}">
+									 <p:ajax update=":dialogTipoMaterial" listener="#{tipoMaterialView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgNombreTipoMaterial" value=" NombreTipoMaterial"/>
+									<p:inputText id="txtNombreTipoMaterial" disabled="true" binding="#{tipoMaterialView.txtNombreTipoMaterial}"/>
+																		<h:outputText id="msgIdEstado_Estado" value=" IdEstado_Estado"/>
+									<p:inputText id="txtIdEstado_Estado" disabled="true" binding="#{tipoMaterialView.txtIdEstado_Estado}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{tipoMaterialView.btnSave}" value="Save" action="#{tipoMaterialView.action_save()}" update=":dialogTipoMaterial :frm:panelDataTableTipoMaterial" />
+									<p:commandButton id="btnClear" value="Clear" action="#{tipoMaterialView.action_clear()}" update=":dialogTipoMaterial" />
+									<p:commandButton id="btnExit" value="Exit" action="#{tipoMaterialView.action_closeDialog()}" update=":dialogTipoMaterial" />
+								</div>
+				</p:panel>
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

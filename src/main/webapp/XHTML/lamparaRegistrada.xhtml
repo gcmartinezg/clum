@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+		 
+	<ui:define name="content">	
+			<h:form id="formDialog">
+				<p:messages id="msg" />
+				<p:growl id="men"/>
+					<p:panel id="panelLamparaRegistrada" header="LamparaRegistrada">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgLamparaRegistradaId" value="LamparaRegistradaId"/>
+						 	<p:inputText id="txtLamparaRegistradaId" binding="#{lamparaRegistradaView.txtLamparaRegistradaId}">
+						 		<p:ajax update="panelLamparaRegistrada,msg,panelBotones" listener="#{lamparaRegistradaView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgLatitudPosActualTecnico" value=" LatitudPosActualTecnico"/>
+							<p:inputText id="txtLatitudPosActualTecnico" disabled="true" binding="#{lamparaRegistradaView.txtLatitudPosActualTecnico}"/>
+													<h:outputText id="msgLongitudPosActualTecnico" value=" LongitudPosActualTecnico"/>
+							<p:inputText id="txtLongitudPosActualTecnico" disabled="true" binding="#{lamparaRegistradaView.txtLongitudPosActualTecnico}"/>
+													<h:outputText id="msgLamparaId_Lampara" value=" LamparaId_Lampara"/>
+							<p:inputText id="txtLamparaId_Lampara" disabled="true" binding="#{lamparaRegistradaView.txtLamparaId_Lampara}"/>
+													<h:outputText id="msgUsuarioId_Usuario" value=" UsuarioId_Usuario"/>
+							<p:inputText id="txtUsuarioId_Usuario" disabled="true" binding="#{lamparaRegistradaView.txtUsuarioId_Usuario}"/>
+												
+																				<h:outputText id="msgFechaHora" value=" FechaHora"/>
+														<p:calendar showOn="button" navigator="true" locale="en" 
+							binding="#{lamparaRegistradaView.txtFechaHora}" >
+								<p:ajax event="dateSelect" listener="#{lamparaRegistradaView.listener_txtFechaHora}" />
+							</p:calendar>
+																	   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{lamparaRegistradaView.btnSave}" disabled="true" value="Save" action="#{lamparaRegistradaView.action_save()}" update="panelLamparaRegistrada,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{lamparaRegistradaView.btnDelete}" disabled="true" value="Delete" action="#{lamparaRegistradaView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelLamparaRegistrada,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{lamparaRegistradaView.action_clear()}" update="panelLamparaRegistrada,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+  </ui:define>
+</ui:composition>
