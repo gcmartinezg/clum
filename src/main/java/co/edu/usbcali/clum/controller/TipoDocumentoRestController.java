@@ -5,6 +5,7 @@ import co.edu.usbcali.clum.dto.TerceroDTO;
 import co.edu.usbcali.clum.dto.TipoDocumentoDTO;
 import co.edu.usbcali.clum.mapper.TipoDocumentoMapper;
 import co.edu.usbcali.clum.service.TipoDocumentoService;
+import co.edu.usbcali.clum.utility.Respuesta;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,43 +39,47 @@ public class TipoDocumentoRestController {
     private static final int ESTADO_DESACTIVADO = 2;
 
     @PostMapping(value = "/saveTipoDocumento")
-    public void saveTipoDocumento(@RequestBody
-    TipoDocumentoDTO tipoDocumentoDTO) throws Exception {
+    public ResponseEntity<Respuesta> saveTipoDocumento(@RequestBody  TipoDocumentoDTO tipoDocumentoDTO) throws Exception {
         try {
             TipoDocumento tipoDocumento = tipoDocumentoMapper.tipoDocumentoDTOToTipoDocumento(tipoDocumentoDTO);
 
             tipoDocumentoService.saveTipoDocumento(tipoDocumento);
+            return ResponseEntity.ok().body(new Respuesta("El tipo de documento con id "+tipoDocumento.getTipoDocumentoId()+" se ha guardado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
     @DeleteMapping(value = "/deleteTipoDocumento/{tipoDocumentoId}")
-    public void deleteTipoDocumento(
+    public ResponseEntity<Respuesta> deleteTipoDocumento(
         @PathVariable("tipoDocumentoId")
     Integer tipoDocumentoId) throws Exception {
         try {
             TipoDocumento tipoDocumento = tipoDocumentoService.getTipoDocumento(tipoDocumentoId);
 
             tipoDocumentoService.deleteTipoDocumento(tipoDocumento);
+            return ResponseEntity.ok().body(new Respuesta("El tipo de documento con id "+tipoDocumento.getTipoDocumentoId()+" se ha eliminado con exito"));
+
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
     @PutMapping(value = "/updateTipoDocumento/")
-    public void updateTipoDocumento(
+    public ResponseEntity<Respuesta> updateTipoDocumento(
         @RequestBody
     TipoDocumentoDTO tipoDocumentoDTO) throws Exception {
         try {
             TipoDocumento tipoDocumento = tipoDocumentoMapper.tipoDocumentoDTOToTipoDocumento(tipoDocumentoDTO);
 
             tipoDocumentoService.updateTipoDocumento(tipoDocumento);
+            return ResponseEntity.ok().body(new Respuesta("El tipo de documento con id "+tipoDocumento.getTipoDocumentoId()+" se ha modificado con exito"));
+
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
@@ -105,20 +110,15 @@ public class TipoDocumentoRestController {
     }
     
     @PutMapping("/deactivate")
-	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
-		deactivate(@RequestBody TipoDocumentoDTO tipoDocumentoDTO)
-				throws Exception{
+	public ResponseEntity<Respuesta> deactivate(@RequestBody TipoDocumentoDTO tipoDocumentoDTO)	throws Exception{
 		try {
 			if(tipoDocumentoDTO == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
-						"El tipo de documento es nulo"));
+				return ResponseEntity.badRequest().body(new Respuesta("El tipo de documento es nulo"));
 			}
 			
-			log.info("intentando desactivar tipo de documento: " + 
-					tipoDocumentoDTO.toString());
+			log.info("intentando desactivar tipo de documento: " + 	tipoDocumentoDTO.toString());
 			
-			TipoDocumento toBeFound = tipoDocumentoService
-					.getTipoDocumento(tipoDocumentoDTO.getTipoDocumentoId());
+			TipoDocumento toBeFound = tipoDocumentoService.getTipoDocumento(tipoDocumentoDTO.getTipoDocumentoId());
 			
 			if(toBeFound == null) {
 				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
@@ -145,20 +145,16 @@ public class TipoDocumentoRestController {
 	}
 	
 	@PutMapping("/activate")
-	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
-		activate(@RequestBody TipoDocumentoDTO tipoDocumentoDTO)
-				throws Exception{
+	public ResponseEntity<Respuesta> activate(@RequestBody TipoDocumentoDTO tipoDocumentoDTO)throws Exception{
 		try {
 			if(tipoDocumentoDTO == null) {
 				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
 						"El tipo de documento es nulo"));
 			}
 			
-			log.info("intentando activar tipo de documento: " + 
-					tipoDocumentoDTO.toString());
+			log.info("intentando activar tipo de documento: " + tipoDocumentoDTO.toString());
 			
-			TipoDocumento toBeFound = tipoDocumentoService
-					.getTipoDocumento(tipoDocumentoDTO.getTipoDocumentoId());
+			TipoDocumento toBeFound = tipoDocumentoService.getTipoDocumento(tipoDocumentoDTO.getTipoDocumentoId());
 			
 			if(toBeFound == null) {
 				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
@@ -169,8 +165,7 @@ public class TipoDocumentoRestController {
 			
 			tipoDocumentoDTO.setIdEstado_Estado(ESTADO_ACTIVADO);
 			
-			TipoDocumento tipoDocumento = tipoDocumentoMapper
-					.tipoDocumentoDTOToTipoDocumento(tipoDocumentoDTO);
+			TipoDocumento tipoDocumento = tipoDocumentoMapper.tipoDocumentoDTOToTipoDocumento(tipoDocumentoDTO);
 			tipoDocumentoService.updateTipoDocumento(tipoDocumento);
 			
 			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
