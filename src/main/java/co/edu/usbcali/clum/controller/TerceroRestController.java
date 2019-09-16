@@ -2,9 +2,9 @@ package co.edu.usbcali.clum.controller;
 
 import co.edu.usbcali.clum.domain.*;
 import co.edu.usbcali.clum.dto.TerceroDTO;
-import co.edu.usbcali.clum.dto.TipoMaterialDTO;
 import co.edu.usbcali.clum.mapper.TerceroMapper;
 import co.edu.usbcali.clum.service.TerceroService;
+import co.edu.usbcali.clum.utility.Respuesta;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,19 +38,22 @@ public class TerceroRestController {
     private static final int ESTADO_DESACTIVADO = 2;
 
     @PostMapping(value = "/saveTercero")
-    public void saveTercero(@RequestBody
+    public ResponseEntity<Respuesta> saveTercero(@RequestBody
     TerceroDTO terceroDTO) throws Exception {
         try {
             Tercero tercero = terceroMapper.terceroDTOToTercero(terceroDTO);
 
             terceroService.saveTercero(tercero);
+            return ResponseEntity.ok().body(new Respuesta("El tercero con" + 
+					" id " + tercero.getTerceroId() + " ha sido guardado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
     @DeleteMapping(value = "/deleteTercero/{terceroId}")
+    @Deprecated
     public void deleteTercero(@PathVariable("terceroId")
     Integer terceroId) throws Exception {
         try {
@@ -64,15 +67,19 @@ public class TerceroRestController {
     }
 
     @PutMapping(value = "/updateTercero/")
-    public void updateTercero(@RequestBody
+    public ResponseEntity<Respuesta> updateTercero(@RequestBody
     TerceroDTO terceroDTO) throws Exception {
         try {
             Tercero tercero = terceroMapper.terceroDTOToTercero(terceroDTO);
 
             terceroService.updateTercero(tercero);
+            return ResponseEntity.ok().body(new Respuesta(
+					"El tercero con id "
+					+ tercero.getTerceroId()
+					+ " ha sido modificado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
@@ -101,12 +108,12 @@ public class TerceroRestController {
     }
     
     @PutMapping("/deactivate")
-	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
+	public ResponseEntity<Respuesta> 
 		deactivate(@RequestBody TerceroDTO terceroDTO)
 				throws Exception{
 		try {
 			if(terceroDTO == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tercero es nulo"));
 			}
 			
@@ -117,7 +124,7 @@ public class TerceroRestController {
 					.getTercero(terceroDTO.getTerceroId());
 			
 			if(toBeFound == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tercero con id "
 						+ terceroDTO.getTerceroId()
 						+ " no existe"));
@@ -129,24 +136,24 @@ public class TerceroRestController {
 					.terceroDTOToTercero(terceroDTO);
 			terceroService.updateTercero(tercero);
 			
-			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+			return ResponseEntity.ok().body(new Respuesta(
 					"El tercero con id "
 					+ tercero.getTerceroId()
 					+ " ha sido desactivado exitosamente"));
 			
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
 		}
 		
 	}
 	
 	@PutMapping("/activate")
-	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
+	public ResponseEntity<Respuesta> 
 		activate(@RequestBody TerceroDTO terceroDTO)
 				throws Exception{
 		try {
 			if(terceroDTO == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tercero es nulo"));
 			}
 			
@@ -157,7 +164,7 @@ public class TerceroRestController {
 					.getTercero(terceroDTO.getTerceroId());
 			
 			if(toBeFound == null) {
-				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+				return ResponseEntity.badRequest().body(new Respuesta(
 						"El tercero con id "
 						+ terceroDTO.getTerceroId()
 						+ " no existe"));
@@ -169,13 +176,13 @@ public class TerceroRestController {
 					.terceroDTOToTercero(terceroDTO);
 			terceroService.updateTercero(tercero);
 			
-			return ResponseEntity.ok().body(new co.edu.usbcali.clum.utility.Respuesta(
+			return ResponseEntity.ok().body(new Respuesta(
 					"El tercero con id "
 					+ tercero.getTerceroId()
 					+ " ha sido activado exitosamente"));
 			
 		} catch (Exception e) {
-			return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(e.getMessage()));
+			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
 		}
 		
 	}

@@ -33,6 +33,9 @@ public class UsuarioRestController {
     private UsuarioService usuarioService;
     @Autowired
     private UsuarioMapper usuarioMapper;
+    
+    private static final int ESTADO_ACTIVADO = 1;
+    private static final int ESTADO_DESACTIVADO = 2;
 
     @PostMapping(value = "/saveUsuario")
     public ResponseEntity<Respuesta> saveUsuario(@RequestBody UsuarioDTO usuarioDTO) throws Exception {
@@ -56,6 +59,7 @@ public class UsuarioRestController {
     }
 
     @DeleteMapping(value = "/deleteUsuario/{usuarioId}")
+    @Deprecated
     public void deleteUsuario(@PathVariable("usuarioId")
     String usuarioId) throws Exception {
         try {
@@ -69,15 +73,19 @@ public class UsuarioRestController {
     }
 
     @PutMapping(value = "/updateUsuario/")
-    public void updateUsuario(@RequestBody
+    public ResponseEntity<Respuesta> updateUsuario(@RequestBody
     UsuarioDTO usuarioDTO) throws Exception {
         try {
             Usuario usuario = usuarioMapper.usuarioDTOToUsuario(usuarioDTO);
 
             usuarioService.updateUsuario(usuario);
+            return ResponseEntity.ok().body(new Respuesta(
+					"El usuario con id "
+					+ usuario.getUsuarioId()
+					+ " ha sido modificado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
@@ -118,4 +126,85 @@ public class UsuarioRestController {
 			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
 		}
     }
+    
+    @PutMapping("/deactivate")
+	public ResponseEntity<Respuesta> 
+		deactivate(@RequestBody UsuarioDTO usuarioDTO)
+				throws Exception{
+		try {
+			if(usuarioDTO == null) {
+				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+						"El usuario es nulo"));
+			}
+			
+			log.info("intentando desactivar usuario: " + 
+					usuarioDTO.toString());
+			
+			Usuario toBeFound = usuarioService
+					.getUsuario(usuarioDTO.getUsuarioId());
+			
+			if(toBeFound == null) {
+				return ResponseEntity.badRequest().body(new Respuesta(
+						"El usuario con id "
+						+ usuarioDTO.getUsuarioId()
+						+ " no existe"));
+			}
+			
+			usuarioDTO.setIdEstado_Estado(ESTADO_DESACTIVADO);
+			
+			Usuario usuario = usuarioMapper
+					.usuarioDTOToUsuario(usuarioDTO);
+			usuarioService.updateUsuario(usuario);
+			
+			return ResponseEntity.ok().body(new Respuesta(
+					"El usuario con id "
+					+ usuario.getUsuarioId()
+					+ " ha sido desactivado exitosamente"));
+			
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
+		}
+		
+	}
+	
+	@PutMapping("/activate")
+	public ResponseEntity<co.edu.usbcali.clum.utility.Respuesta> 
+		activate(@RequestBody UsuarioDTO usuarioDTO)
+				throws Exception{
+		try {
+			if(usuarioDTO == null) {
+				return ResponseEntity.badRequest().body(new co.edu.usbcali.clum.utility.Respuesta(
+						"El usuario es nulo"));
+			}
+			
+			log.info("intentando activar usuario: " + 
+					usuarioDTO.toString());
+			
+			Usuario toBeFound = usuarioService
+					.getUsuario(usuarioDTO.getUsuarioId());
+			
+			if(toBeFound == null) {
+				return ResponseEntity.badRequest().body(new Respuesta(
+						"El usuario con id "
+						+ usuarioDTO.getUsuarioId()
+						+ " no existe"));
+			}
+			
+			usuarioDTO.setIdEstado_Estado(ESTADO_ACTIVADO);
+			
+			Usuario usuario = usuarioMapper
+					.usuarioDTOToUsuario(usuarioDTO);
+			usuarioService.updateUsuario(usuario);
+			
+			return ResponseEntity.ok().body(new Respuesta(
+					"El usuario con id "
+					+ usuario.getUsuarioId()
+					+ " ha sido activado exitosamente"));
+			
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
+		}
+		
+	}
+    
 }
