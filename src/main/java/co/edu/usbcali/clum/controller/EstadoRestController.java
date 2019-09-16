@@ -4,11 +4,13 @@ import co.edu.usbcali.clum.domain.*;
 import co.edu.usbcali.clum.dto.EstadoDTO;
 import co.edu.usbcali.clum.mapper.EstadoMapper;
 import co.edu.usbcali.clum.service.EstadoService;
+import co.edu.usbcali.clum.utility.Respuesta;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,41 +35,49 @@ public class EstadoRestController {
     private EstadoMapper estadoMapper;
 
     @PostMapping(value = "/saveEstado")
-    public void saveEstado(@RequestBody
+    public ResponseEntity<Respuesta> saveEstado(@RequestBody
     EstadoDTO estadoDTO) throws Exception {
         try {
             Estado estado = estadoMapper.estadoDTOToEstado(estadoDTO);
 
             estadoService.saveEstado(estado);
+            return ResponseEntity.ok().body(new Respuesta("El estado con" + 
+					" id " + estado.getIdEstado() + " ha sido guardado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
     @DeleteMapping(value = "/deleteEstado/{idEstado}")
-    public void deleteEstado(@PathVariable("idEstado")
+    public ResponseEntity<Respuesta> deleteEstado(@PathVariable("idEstado")
     Integer idEstado) throws Exception {
         try {
             Estado estado = estadoService.getEstado(idEstado);
 
             estadoService.deleteEstado(estado);
+            return ResponseEntity.ok().body(new Respuesta("El estado con" + 
+					" id " + estado.getIdEstado() + " ha sido eliminado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
     @PutMapping(value = "/updateEstado/")
-    public void updateEstado(@RequestBody
+    public ResponseEntity<Respuesta> updateEstado(@RequestBody
     EstadoDTO estadoDTO) throws Exception {
         try {
             Estado estado = estadoMapper.estadoDTOToEstado(estadoDTO);
 
             estadoService.updateEstado(estado);
+            return ResponseEntity.ok().body(new Respuesta(
+					"El estado con id "
+					+ estado.getIdEstado()
+					+ " ha sido modificado con exito"));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw e;
+            return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
         }
     }
 
