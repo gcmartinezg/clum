@@ -3,6 +3,8 @@ package co.edu.usbcali.clum.controller;
 import co.edu.usbcali.clum.domain.*;
 import co.edu.usbcali.clum.dto.UsuarioDTO;
 import co.edu.usbcali.clum.mapper.UsuarioMapper;
+import co.edu.usbcali.clum.service.EstadoService;
+import co.edu.usbcali.clum.service.TipoUsuarioService;
 import co.edu.usbcali.clum.service.UsuarioService;
 import co.edu.usbcali.clum.utility.Respuesta;
 
@@ -21,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -33,9 +37,14 @@ public class UsuarioRestController {
     private UsuarioService usuarioService;
     @Autowired
     private UsuarioMapper usuarioMapper;
+    @Autowired
+    private EstadoService estadoService;
+    @Autowired
+    private TipoUsuarioService tipoUsuarioService;
     
     private static final int ESTADO_ACTIVADO = 1;
     private static final int ESTADO_DESACTIVADO = 2;
+    private static final int TIPO_USUARIO_TECNICO = 3;
 
     @PostMapping(value = "/saveUsuario")
     public ResponseEntity<Respuesta> saveUsuario(@RequestBody UsuarioDTO usuarioDTO) throws Exception {
@@ -206,5 +215,34 @@ public class UsuarioRestController {
 		}
 		
 	}
+	
+	@GetMapping(value = "/getListaTecnicos")
+    public List<UsuarioDTO> getTecnicosActivos() throws Exception {
+        try {
+        	Set<Usuario> set = tipoUsuarioService.getTipoUsuario(TIPO_USUARIO_TECNICO).getUsuarios();
+        	List<Usuario> list = new ArrayList<>(set);
+            return usuarioMapper.listUsuarioToListUsuarioDTO(list);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+        
+    }
+	
+	@GetMapping(value = "/getTecnicosActivos")
+    public List<UsuarioDTO> getListaTecnicos() throws Exception {
+        try {
+        	Set<Usuario> set = estadoService.getEstado(ESTADO_ACTIVADO).getUsuarios();
+        	List<Usuario> list = new ArrayList<>(set);
+        	list.removeIf(u->{
+        		return u.getTipoUsuario().getTipoUsuarioId() == TIPO_USUARIO_TECNICO;
+        		});
+            return usuarioMapper.listUsuarioToListUsuarioDTO(list);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+        
+    }
     
 }
