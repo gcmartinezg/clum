@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.security.InvalidKeyException;
+import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
@@ -24,6 +26,9 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.validator.EmailValidator;
@@ -543,9 +548,12 @@ public class Utilities {
 		return numeroSiguiente;
 	}
 	
-	public static String encode(String aCifrar) {
-		//TODO implementar metodo
-		return "";
+	public static String cipher(String aCifrar) throws InvalidKeyException, NoSuchAlgorithmException, 
+			NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
+		KeyPair par = RSAManagement.getRSAKeys();
+		String cesar = RSAManagement.cifrarMensajeCesar(aCifrar);
+		
+		return RSAManagement.cifrarMensajeRSA(cesar, par.getPrivate());
 	}
 	
 	public static void checkNumberLessThanExclusive(int number, int min) {
@@ -582,7 +590,8 @@ public class Utilities {
 	}
 	
 	public static String getQRData(int horaInicio, int horaFin, 
-			String coordinadorId, String trabajadorId) {
+			String coordinadorId, String trabajadorId) throws InvalidKeyException, 
+			NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
 		
 		checkNumberBetweenRangeExclusive(horaInicio, 0, 23);
 		checkNumberBetweenRangeExclusive(horaFin, 0, 23);
@@ -601,7 +610,7 @@ public class Utilities {
 					.add(coordinadorId)
 					.add(trabajadorId);
 		
-		datosQr = encode(joiner.toString());
+		datosQr = cipher(joiner.toString());
 		
 		return datosQr;
 	}

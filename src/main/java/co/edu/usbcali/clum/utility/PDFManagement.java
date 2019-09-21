@@ -44,7 +44,7 @@ public class PDFManagement {
 		List<String> fieldNames = Utilities.getFieldNames(lista.get(0));
 	    fieldNames.forEach(columnTitle -> {
 	        PdfPCell header = new PdfPCell();
-	        header.setBackgroundColor(BaseColor.YELLOW.darker());
+	        header.setBackgroundColor(BaseColor.LIGHT_GRAY);
 	        header.setBorderWidth(1);
 	        header.setPhrase(new Phrase(columnTitle));
 	        table.addCell(header);

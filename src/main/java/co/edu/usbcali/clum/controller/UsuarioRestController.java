@@ -284,12 +284,12 @@ public class UsuarioRestController {
 	}
 	
 	@GetMapping(value = "/generateQR/{usuarioId}/{coordinadorId}")
-	public String generateQR(@PathVariable("usuarioId") String usuarioId, 
+	public Respuesta generateQR(@PathVariable("usuarioId") String usuarioId, 
     		@PathVariable("coordinadorId") String coordinadorId) throws Exception {
         try {
         	String dataQR = Utilities.getQRData(
         			INICIO_HORA_LABORAL, FIN_HORA_LABORAL, coordinadorId, usuarioId);
-            return Utilities.encodeQr(QRManagement.generarQR(dataQR, TAMANO_QR_PX));
+            return new Respuesta(Utilities.encodeQr(QRManagement.generarQR(dataQR, TAMANO_QR_PX)));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -298,10 +298,10 @@ public class UsuarioRestController {
     }
 	
 	@GetMapping(value = "/generateReport/")
-	public String generateReport() throws Exception {
+	public Respuesta generateReport() throws Exception {
         try {
         	//TODO terminar metodo
-        	return "";
+        	return new Respuesta("");
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw e;
