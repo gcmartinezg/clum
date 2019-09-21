@@ -581,7 +581,7 @@ public class Utilities {
 	}
 	
 	public static String getQRData(int horaInicio, int horaFin, 
-			long supervisorId, long trabajadorId) {
+			long coordinadorId, long trabajadorId) {
 		
 		checkNumberBetweenRangeExclusive(horaInicio, 0, 23);
 		checkNumberBetweenRangeExclusive(horaFin, 0, 23);
@@ -597,7 +597,7 @@ public class Utilities {
 		joiner = joiner.add(LocalDateTime.now().toString())
 					.add(fechaInicio.toString())
 					.add(fechaFin.toString())
-					.add(String.valueOf(supervisorId))
+					.add(String.valueOf(coordinadorId))
 					.add(String.valueOf(trabajadorId));
 		
 		datosQr = encode(joiner.toString());

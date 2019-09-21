@@ -1,12 +1,17 @@
 package co.edu.usbcali.clum.controller;
 
 import co.edu.usbcali.clum.domain.*;
+import co.edu.usbcali.clum.dto.TerceroDTO;
 import co.edu.usbcali.clum.dto.UsuarioDTO;
+import co.edu.usbcali.clum.mapper.TerceroMapper;
 import co.edu.usbcali.clum.mapper.UsuarioMapper;
 import co.edu.usbcali.clum.service.EstadoService;
+import co.edu.usbcali.clum.service.TerceroService;
 import co.edu.usbcali.clum.service.TipoUsuarioService;
 import co.edu.usbcali.clum.service.UsuarioService;
+import co.edu.usbcali.clum.utility.QRManagement;
 import co.edu.usbcali.clum.utility.Respuesta;
+import co.edu.usbcali.clum.utility.Utilities;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,15 +41,23 @@ public class UsuarioRestController {
     @Autowired
     private UsuarioService usuarioService;
     @Autowired
-    private UsuarioMapper usuarioMapper;
-    @Autowired
     private EstadoService estadoService;
     @Autowired
     private TipoUsuarioService tipoUsuarioService;
+    @Autowired
+    private UsuarioMapper usuarioMapper;
+    @Autowired
+    private TerceroMapper terceroMapper;
     
     private static final int ESTADO_ACTIVADO = 1;
     private static final int ESTADO_DESACTIVADO = 2;
+    
     private static final int TIPO_USUARIO_TECNICO = 3;
+    
+    private static final int INICIO_HORA_LABORAL = 8;
+    private static final int FIN_HORA_LABORAL = 17;
+    
+    private static final int TAMANO_QR_PX = 300;
 
     @PostMapping(value = "/saveUsuario")
     public ResponseEntity<Respuesta> saveUsuario(@RequestBody UsuarioDTO usuarioDTO) throws Exception {
@@ -216,12 +229,19 @@ public class UsuarioRestController {
 		
 	}
 	
+	private List<Tercero> getTercerosFromUsuarios(List<Usuario> usuarios){
+		ArrayList<Tercero> terceros = new ArrayList<>(usuarios.size());
+		usuarios.forEach(u->{terceros.add(u.getTercero());});
+		return terceros;
+	}
+	
 	@GetMapping(value = "/getListaTecnicos")
-    public List<UsuarioDTO> getTecnicosActivos() throws Exception {
+    public List<TerceroDTO> getTecnicosActivos() throws Exception {
         try {
         	Set<Usuario> set = tipoUsuarioService.getTipoUsuario(TIPO_USUARIO_TECNICO).getUsuarios();
         	List<Usuario> list = new ArrayList<>(set);
-            return usuarioMapper.listUsuarioToListUsuarioDTO(list);
+        	List<Tercero> listTercero = getTercerosFromUsuarios(list);
+            return terceroMapper.listTerceroToListTerceroDTO(listTercero);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw e;
@@ -230,19 +250,34 @@ public class UsuarioRestController {
     }
 	
 	@GetMapping(value = "/getTecnicosActivos")
-    public List<UsuarioDTO> getListaTecnicos() throws Exception {
+    public List<TerceroDTO> getListaTecnicos() throws Exception {
         try {
         	Set<Usuario> set = estadoService.getEstado(ESTADO_ACTIVADO).getUsuarios();
         	List<Usuario> list = new ArrayList<>(set);
         	list.removeIf(u->{
         		return u.getTipoUsuario().getTipoUsuarioId() == TIPO_USUARIO_TECNICO;
         		});
-            return usuarioMapper.listUsuarioToListUsuarioDTO(list);
+        	List<Tercero> listTercero = getTercerosFromUsuarios(list);
+            return terceroMapper.listTerceroToListTerceroDTO(listTercero);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw e;
         }
         
+    }
+	
+	@GetMapping(value = "/generateQR/{usuarioId}/{coordinadorId}")
+    public String generateQR(@PathVariable("usuarioId") Integer usuarioId, 
+    		@PathVariable("coordinadorId") Integer coordinadorId) throws Exception {
+        try {
+        	String dataQR = Utilities.getQRData(
+        			INICIO_HORA_LABORAL, FIN_HORA_LABORAL, coordinadorId, usuarioId);
+            return Utilities.encodeQr(QRManagement.generarQR(dataQR, TAMANO_QR_PX));
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+
+        return null;
     }
     
 }

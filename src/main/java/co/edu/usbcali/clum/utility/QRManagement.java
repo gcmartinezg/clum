@@ -67,6 +67,11 @@ public class QRManagement {
         return image;
     }
 	
+	public static BufferedImage generarQR(String texto, int tamano) 
+			throws IOException, WriterException {
+		return generarQR(texto, tamano, tamano);
+	}
+	
 	/**
 	 * 
 	 * @param buffer el buffer que contiene el qr a ser decodificado
