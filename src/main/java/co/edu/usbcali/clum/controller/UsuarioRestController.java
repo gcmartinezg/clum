@@ -6,7 +6,6 @@ import co.edu.usbcali.clum.dto.UsuarioDTO;
 import co.edu.usbcali.clum.mapper.TerceroMapper;
 import co.edu.usbcali.clum.mapper.UsuarioMapper;
 import co.edu.usbcali.clum.service.EstadoService;
-import co.edu.usbcali.clum.service.TerceroService;
 import co.edu.usbcali.clum.service.TipoUsuarioService;
 import co.edu.usbcali.clum.service.UsuarioService;
 import co.edu.usbcali.clum.utility.QRManagement;
@@ -18,7 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,6 +55,7 @@ public class UsuarioRestController {
     
     private static final int INICIO_HORA_LABORAL = 8;
     private static final int FIN_HORA_LABORAL = 17;
+    private static final int MINIMO_LAMPARAS_REGISTRADAS = 15;
     
     private static final int TAMANO_QR_PX = 300;
 
@@ -297,5 +296,17 @@ public class UsuarioRestController {
 
         return null;
     }
+	
+	@GetMapping(value = "/generateReport/")
+	public String generateReport() throws Exception {
+        try {
+        	//TODO terminar metodo
+        	return "";
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+        
+	}
     
 }

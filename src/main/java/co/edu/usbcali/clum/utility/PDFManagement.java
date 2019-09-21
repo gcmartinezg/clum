@@ -1,6 +1,7 @@
 package co.edu.usbcali.clum.utility;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Field;
 import java.util.List;
 
 import com.itextpdf.text.BaseColor;
@@ -18,37 +19,54 @@ public class PDFManagement {
 
 	private PDFManagement() {throw new AssertionError("prohibido");}
 	
-	public static <T> void crearPDF(List<T> lista) throws DocumentException {
+	public static <T> ByteArrayOutputStream crearPDF(List<T> lista, String nombre) throws DocumentException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		Document document = new Document();
-		PdfWriter.getInstance(document, new ByteArrayOutputStream());
+		PdfWriter.getInstance(document, baos);
 		 
 		document.open();
-		Font font = FontFactory.getFont(FontFactory.HELVETICA, 16, BaseColor.BLACK);
-		Chunk chunk = new Chunk("Documento de Prueba", font);
+		Font font = FontFactory.getFont(FontFactory.HELVETICA, 14, BaseColor.BLACK);
+		document.addTitle(nombre);
+		Chunk chunk = new Chunk(nombre, font);
 		document.add(chunk);
 		
-		PdfPTable table = new PdfPTable(3);
+		PdfPTable table = new PdfPTable(lista.get(0).getClass().getDeclaredFields().length);
 		addTableHeader(table, lista);
-		addRows(table);
+		addRows(table, lista);
+		document.add(table);
 		
 		document.close();
+		
+		return baos;
 	}
 	
 	private static <T> void addTableHeader(PdfPTable table, List<T> lista) {
 		List<String> fieldNames = Utilities.getFieldNames(lista.get(0));
 	    fieldNames.forEach(columnTitle -> {
 	        PdfPCell header = new PdfPCell();
-	        header.setBackgroundColor(BaseColor.LIGHT_GRAY);
-	        header.setBorderWidth(2);
+	        header.setBackgroundColor(BaseColor.YELLOW.darker());
+	        header.setBorderWidth(1);
 	        header.setPhrase(new Phrase(columnTitle));
 	        table.addCell(header);
 	    });
 	}
 	
-	private static  void addRows(PdfPTable table) {
-	    table.addCell("row 1, col 1");
-	    table.addCell("row 1, col 2");
-	    table.addCell("row 1, col 3");
+	private static <T> void addRows(PdfPTable table, List<T> lista) {
+	    for(T element: lista) {
+	    	Field[] fields = element.getClass().getDeclaredFields();
+	    	for(Field field : fields) {	
+	    		try {
+	    			field.setAccessible(true);
+					table.addCell(String.valueOf(field.get(element)));
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    		
+	    	}
+	    	
+	    }
+	    
 	}
 
 }

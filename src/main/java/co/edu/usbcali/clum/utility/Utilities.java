@@ -619,6 +619,7 @@ public class Utilities {
 		List<String> fieldNames = new ArrayList<>();
 		Field[] fields = element.getClass().getDeclaredFields();
 		for(Field field : fields) {
+			field.setAccessible(true);
 			fieldNames.add(field.getName());
 		}
 		return fieldNames;
