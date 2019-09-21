@@ -80,6 +80,16 @@ public class LamparaRestController {
             throw e;
         }
     }
+    
+    @GetMapping(value = "/getLamparaLamparaRegistradas")
+    public List<LamparaDTO> getLamparaLamparaRegistradas() throws Exception {
+        try {
+            return lamparaService.getLamparaLamparaRegistradas();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+    }
 
     @GetMapping(value = "/getLampara/{lamparaId}")
     public LamparaDTO getLampara(@PathVariable("lamparaId")

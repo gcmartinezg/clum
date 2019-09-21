@@ -52,4 +52,6 @@ public interface LamparaService {
     public List<LamparaDTO> getDataLampara() throws Exception;
 
     public void validateLampara(Lampara lampara) throws Exception;
+    
+    public List<LamparaDTO> getLamparaLamparaRegistradas() throws Exception;
 }

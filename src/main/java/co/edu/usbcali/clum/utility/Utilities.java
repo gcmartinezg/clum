@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
@@ -612,6 +613,15 @@ public class Utilities {
 		encode = Base64.getEncoder().withoutPadding()
 					.encodeToString(baos.toByteArray());
 		return encode;
+	}
+	
+	public static <T> List<String> getFieldNames(T element){
+		List<String> fieldNames = new ArrayList<>();
+		Field[] fields = element.getClass().getDeclaredFields();
+		for(Field field : fields) {
+			fieldNames.add(field.getName());
+		}
+		return fieldNames;
 	}
 	
 }

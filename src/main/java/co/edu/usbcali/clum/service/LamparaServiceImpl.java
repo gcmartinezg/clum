@@ -2,6 +2,7 @@ package co.edu.usbcali.clum.service;
 
 import co.edu.usbcali.clum.domain.*;
 import co.edu.usbcali.clum.dto.LamparaDTO;
+import co.edu.usbcali.clum.dto.LamparaRegistradaDTO;
 import co.edu.usbcali.clum.exception.*;
 import co.edu.usbcali.clum.mapper.LamparaMapper;
 import co.edu.usbcali.clum.repository.*;
@@ -110,6 +111,9 @@ public class LamparaServiceImpl implements LamparaService {
     */
     @Autowired
     TransformadorService serviceTransformador7;
+    @Autowired
+    LamparaRegistradaService lamparaRegistradaService;
+    
 
     public void validateLampara(Lampara lampara) throws Exception {
         try {
@@ -246,6 +250,23 @@ public class LamparaServiceImpl implements LamparaService {
             for (Lampara lamparaTmp : lampara) {
                 LamparaDTO lamparaDTO2 = lamparaMapper.lamparaToLamparaDTO(lamparaTmp);
                 lamparaDTO.add(lamparaDTO2);
+            }
+
+            return lamparaDTO;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    
+    @Transactional(readOnly = true)
+    public List<LamparaDTO> getLamparaLamparaRegistradas() throws Exception {
+        try {
+            List<LamparaRegistrada> lamparaRegistradas = lamparaRegistradaRepository.findAll();
+
+            List<LamparaDTO> lamparaDTO = new ArrayList<LamparaDTO>();
+
+            for (LamparaRegistrada lamparaTmp : lamparaRegistradas) {
+                lamparaDTO.add(lamparaMapper.lamparaToLamparaDTO(lamparaTmp.getLampara()));
             }
 
             return lamparaDTO;
@@ -470,4 +491,6 @@ public class LamparaServiceImpl implements LamparaService {
 
         return list;
     }
+    
+    
 }
