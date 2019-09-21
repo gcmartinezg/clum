@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -238,9 +239,12 @@ public class UsuarioRestController {
 	@GetMapping(value = "/getListaTecnicos")
     public List<TerceroDTO> getTecnicosActivos() throws Exception {
         try {
-        	Set<Usuario> set = tipoUsuarioService.getTipoUsuario(TIPO_USUARIO_TECNICO).getUsuarios();
-        	List<Usuario> list = new ArrayList<>(set);
-        	List<Tercero> listTercero = getTercerosFromUsuarios(list);
+        	ArrayList<UsuarioDTO> list = new ArrayList<>(usuarioService.getDataUsuario());
+        	list.removeIf(u->{
+        		return u.getTipoUsuarioId_TipoUsuario() != TIPO_USUARIO_TECNICO;
+        	});
+        	List<Tercero> listTercero = getTercerosFromUsuarios(
+        			usuarioMapper.listUsuarioDTOToListUsuario(list));
             return terceroMapper.listTerceroToListTerceroDTO(listTercero);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -250,14 +254,15 @@ public class UsuarioRestController {
     }
 	
 	@GetMapping(value = "/getTecnicosActivos")
-    public List<TerceroDTO> getListaTecnicos() throws Exception {
+	public List<TerceroDTO> getListaTecnicos() throws Exception {
         try {
-        	Set<Usuario> set = estadoService.getEstado(ESTADO_ACTIVADO).getUsuarios();
-        	List<Usuario> list = new ArrayList<>(set);
+        	ArrayList<UsuarioDTO> list = new ArrayList<>(usuarioService.getDataUsuario());
         	list.removeIf(u->{
-        		return u.getTipoUsuario().getTipoUsuarioId() == TIPO_USUARIO_TECNICO;
+        		return u.getTipoUsuarioId_TipoUsuario() != TIPO_USUARIO_TECNICO ||
+        				u.getIdEstado_Estado() != ESTADO_ACTIVADO;
         		});
-        	List<Tercero> listTercero = getTercerosFromUsuarios(list);
+        	List<Tercero> listTercero = getTercerosFromUsuarios(
+        			usuarioMapper.listUsuarioDTOToListUsuario(list));
             return terceroMapper.listTerceroToListTerceroDTO(listTercero);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -266,9 +271,22 @@ public class UsuarioRestController {
         
     }
 	
+	@GetMapping(value = "/getTerceroFromUsuarioId/{usuarioId}")
+	public TerceroDTO getTerceroFromUsuarioId(
+    		@PathVariable("usuarioId") String usuarioId) throws Exception {
+        try {
+        	return terceroMapper.terceroToTerceroDTO(
+        			usuarioService.getUsuario(usuarioId).getTercero());
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+        
+	}
+	
 	@GetMapping(value = "/generateQR/{usuarioId}/{coordinadorId}")
-    public String generateQR(@PathVariable("usuarioId") Integer usuarioId, 
-    		@PathVariable("coordinadorId") Integer coordinadorId) throws Exception {
+	public String generateQR(@PathVariable("usuarioId") String usuarioId, 
+    		@PathVariable("coordinadorId") String coordinadorId) throws Exception {
         try {
         	String dataQR = Utilities.getQRData(
         			INICIO_HORA_LABORAL, FIN_HORA_LABORAL, coordinadorId, usuarioId);

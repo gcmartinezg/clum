@@ -2,8 +2,11 @@ package co.edu.usbcali.clum.controller;
 
 import co.edu.usbcali.clum.domain.*;
 import co.edu.usbcali.clum.dto.TerceroDTO;
+import co.edu.usbcali.clum.dto.UsuarioDTO;
 import co.edu.usbcali.clum.mapper.TerceroMapper;
+import co.edu.usbcali.clum.mapper.UsuarioMapper;
 import co.edu.usbcali.clum.service.TerceroService;
+import co.edu.usbcali.clum.service.UsuarioService;
 import co.edu.usbcali.clum.utility.Respuesta;
 
 import org.slf4j.Logger;
@@ -11,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -32,7 +37,11 @@ public class TerceroRestController {
     @Autowired
     private TerceroService terceroService;
     @Autowired
+    private UsuarioService usuarioService;
+    @Autowired
     private TerceroMapper terceroMapper;
+    @Autowired
+    private UsuarioMapper usuarioMapper;
     
     private static final int ESTADO_ACTIVADO = 1;
     private static final int ESTADO_DESACTIVADO = 2;
@@ -185,5 +194,22 @@ public class TerceroRestController {
 			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
 		}
 		
+	}
+	
+	@GetMapping(value = "/getUsuarioFromTerceroId/{terceroId}")
+    public UsuarioDTO getUsuarioFromTerceroId(
+    		@PathVariable("terceroId") Integer terceroId) throws Exception {
+        try {
+        	ArrayList<UsuarioDTO> usuarios = new ArrayList<>(usuarioService.getDataUsuario());
+        	Usuario usuario = null;
+        	usuarios.removeIf(u->{return !u.getTerceroId_Tercero().equals(terceroId);});
+        	usuario = usuarioService.getUsuario(usuarios.get(0).getUsuarioId());
+        	usuarios = null;
+        	return usuarioMapper.usuarioToUsuarioDTO(usuario);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+        
 	}
 }
