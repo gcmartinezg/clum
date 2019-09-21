@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
 
@@ -29,15 +30,14 @@ public class QRManagement {
 	
 	/**
 	 * 
-	 * @param archivo el archivo donde va a ser almacenada la representacion del qr
 	 * @param texto el texto a ser cifrado en el qr
 	 * @param alto el ancho del codigo generado
 	 * @param ancho el ancho del codigo generado
-	 * @return el archivo con el qr escrito en el
+	 * @return el BufferedImage con el qr escrito en el
 	 * @throws IOException si ocurre un error en la escritura del archivo
 	 * @throws WriterException si ocurre un error en le cifrado del texto
 	 */
-	public static File generarQR(File archivo, String texto, int alto, int ancho) 
+	public static BufferedImage generarQR(String texto, int alto, int ancho) 
 			throws IOException, WriterException {
         QRCodeWriter writer = new QRCodeWriter();
         BitMatrix matrix = writer.encode(
@@ -64,14 +64,12 @@ public class QRManagement {
             
         }
 
-        ImageIO.write(image, "png", archivo);
-
-        return archivo;
+        return image;
     }
 	
 	/**
 	 * 
-	 * @param archivo el archivo que contiene el qr a ser decodificado
+	 * @param buffer el buffer que contiene el qr a ser decodificado
 	 * @return la representacion del qr como un string
 	 * @throws FileNotFoundException si el archivo no existe
 	 * @throws IOException si ocurre un error en la lectura del archivo
@@ -79,13 +77,10 @@ public class QRManagement {
 	 * @throws FormatException si el codigo qr no puede ser decodificado
 	 * @throws ChecksumException if error correction fails (?)
 	 */
-    public static String decodificarQR(File archivo) throws FileNotFoundException, 
+    public static String decodificarQR(BufferedImage buffer) throws FileNotFoundException, 
     		IOException, FormatException, ChecksumException, NotFoundException {
-        FileInputStream inputStream = new FileInputStream(archivo);
 
-        BufferedImage image = ImageIO.read(inputStream);
-
-        LuminanceSource source = new BufferedImageLuminanceSource(image);
+        LuminanceSource source = new BufferedImageLuminanceSource(buffer);
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
 
         // decode the qr

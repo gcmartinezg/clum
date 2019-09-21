@@ -5,11 +5,16 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.StringJoiner;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,7 +31,7 @@ import org.slf4j.LoggerFactory;
 public class Utilities {
 
 	private static final Logger log = LoggerFactory.getLogger(Utilities.class);
-
+	
 	public static boolean isNumeric(String word) {
 		boolean ret = false;
 		Pattern pat = Pattern.compile("[^0-9',.\\s]");
@@ -531,4 +536,75 @@ public class Utilities {
 		return numeroSiguiente;
 	}
 	
+	public static String encode(String aCifrar) {
+		//TODO implementar metodo
+		return "";
+	}
+	
+	public static void checkNumberLessThanExclusive(int number, int min) {
+		if(number < min) {
+			throw new IllegalArgumentException(number + " < " + min);
+		}
+		
+	}
+	
+	public static void checkNumberGreaterThanExculsive(int number, int max) {
+		if(number > max) {
+			throw new IllegalArgumentException(number + " > " + max);
+		}
+		
+	}
+	
+	public static void checkNumberLessThanInclusive(int number, int min) {
+		if(number <= min) {
+			throw new IllegalArgumentException(number + " <= " + min);
+		}
+		
+	}
+	
+	public static void checkNumberGreaterThanInclusive(int number, int max) {
+		if(number >= max) {
+			throw new IllegalArgumentException(number + " >= " + max);
+		}
+		
+	}
+	
+	public static void checkNumberBetweenRangeExclusive(int number, int min, int max) {
+		checkNumberGreaterThanExculsive(number, max);
+		checkNumberLessThanExclusive(number, min);
+	}
+	
+	public static String getQRData(int horaInicio, int horaFin, 
+			long supervisorId, long trabajadorId) {
+		
+		checkNumberBetweenRangeExclusive(horaInicio, 0, 23);
+		checkNumberBetweenRangeExclusive(horaFin, 0, 23);
+		checkNumberLessThanExclusive(horaFin, horaInicio);
+		
+		StringJoiner joiner = new StringJoiner("-", " ", " ");
+		String datosQr = "";
+		
+		LocalDateTime hoy = LocalDateTime.of(LocalDate.now(),LocalTime.MIN);
+		LocalDateTime fechaInicio = hoy.plus(horaInicio, ChronoUnit.HOURS);
+		LocalDateTime fechaFin = hoy.plus(horaFin, ChronoUnit.HOURS);
+		
+		joiner = joiner.add(LocalDateTime.now().toString())
+					.add(fechaInicio.toString())
+					.add(fechaFin.toString())
+					.add(String.valueOf(supervisorId))
+					.add(String.valueOf(trabajadorId));
+		
+		datosQr = encode(joiner.toString());
+		
+		return datosQr;
+	}
+	
 }
+
+
+
+
+
+
+
+
