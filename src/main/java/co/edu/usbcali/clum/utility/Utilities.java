@@ -1,5 +1,8 @@
 package co.edu.usbcali.clum.utility;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -9,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -18,6 +22,8 @@ import java.util.StringJoiner;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.imageio.ImageIO;
 
 import org.apache.commons.validator.EmailValidator;
 import org.slf4j.Logger;
@@ -597,6 +603,15 @@ public class Utilities {
 		datosQr = encode(joiner.toString());
 		
 		return datosQr;
+	}
+	
+	public static String encodeQr(BufferedImage qr) throws IOException {
+		String encode = "";
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(qr, "png", baos);
+		encode = Base64.getEncoder().withoutPadding()
+					.encodeToString(baos.toByteArray());
+		return encode;
 	}
 	
 }
