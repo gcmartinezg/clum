@@ -8,7 +8,7 @@ import co.edu.usbcali.clum.mapper.UsuarioMapper;
 import co.edu.usbcali.clum.service.EstadoService;
 import co.edu.usbcali.clum.service.TipoUsuarioService;
 import co.edu.usbcali.clum.service.UsuarioService;
-import co.edu.usbcali.clum.service.enviarCorreo;
+import co.edu.usbcali.clum.service.EnviarCorreoService;
 import co.edu.usbcali.clum.utility.QRManagement;
 import co.edu.usbcali.clum.utility.Respuesta;
 import co.edu.usbcali.clum.utility.Utilities;
@@ -49,7 +49,7 @@ public class UsuarioRestController {
     @Autowired
     private TerceroMapper terceroMapper;
     @Autowired
-    private enviarCorreo correo;
+    private EnviarCorreoService correo;
     
     private static final int ESTADO_ACTIVADO = 1;
     private static final int ESTADO_DESACTIVADO = 2;
