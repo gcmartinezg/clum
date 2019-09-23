@@ -8,6 +8,7 @@ import co.edu.usbcali.clum.mapper.UsuarioMapper;
 import co.edu.usbcali.clum.service.EstadoService;
 import co.edu.usbcali.clum.service.TipoUsuarioService;
 import co.edu.usbcali.clum.service.UsuarioService;
+import co.edu.usbcali.clum.service.enviarCorreo;
 import co.edu.usbcali.clum.utility.QRManagement;
 import co.edu.usbcali.clum.utility.Respuesta;
 import co.edu.usbcali.clum.utility.Utilities;
@@ -47,6 +48,8 @@ public class UsuarioRestController {
     private UsuarioMapper usuarioMapper;
     @Autowired
     private TerceroMapper terceroMapper;
+    @Autowired
+    private enviarCorreo correo;
     
     private static final int ESTADO_ACTIVADO = 1;
     private static final int ESTADO_DESACTIVADO = 2;
@@ -71,7 +74,7 @@ public class UsuarioRestController {
         	if(usuarioDTO.getTerceroId_Tercero() == null || usuarioDTO.getTerceroId_Tercero() == 0) return ResponseEntity.badRequest().body(new Respuesta("Un tercero es requerido"));
             
             Usuario usuario = usuarioMapper.usuarioDTOToUsuario(usuarioDTO);
-
+            correo.correoCreacion(usuario.getTercero().getEmail(), usuario.getContrasenia(), usuario.getUsuarioId());
             usuarioService.saveUsuario(usuario);
             return ResponseEntity.ok().body(new Respuesta("El usuario se ha guardado con exito"));
         } catch (Exception e) {

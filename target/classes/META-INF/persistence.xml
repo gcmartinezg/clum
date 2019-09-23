@@ -29,7 +29,7 @@
              <property name="hibernate.connection.url"
                     value="jdbc:postgresql://127.0.0.1:5432/clum" />
              <property name="hibernate.connection.username" value="postgres" />
-             <property name="hibernate.connection.password" value="postgres" />
+             <property name="hibernate.connection.password" value="alvarez1" />
         </properties>
      
     </persistence-unit>
