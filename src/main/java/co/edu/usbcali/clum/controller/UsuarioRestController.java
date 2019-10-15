@@ -311,5 +311,27 @@ public class UsuarioRestController {
         }
         
 	}
+	
+	@GetMapping(value = "/getMensajeRSA")
+	public Respuesta getMensajeRSA() throws Exception{
+		try {
+			String cifrado = Utilities.cifrado;
+			return new Respuesta(cifrado);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return null;
+	}
     
+	@GetMapping(value = "/getMensajeOriginal")
+	public Respuesta getMensajeOriginal() throws Exception{
+		try {
+			String cifrado = Utilities.cifrado;
+			String descifrado = Utilities.descipher(cifrado);
+			return new Respuesta(descifrado);
+		} catch (Exception e) {
+			log.info(e.getMessage(), e);
+		}
+		return null;
+	}
 }

@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
 public class Utilities {
 
 	private static final Logger log = LoggerFactory.getLogger(Utilities.class);
+	public static String cifrado = "";
 	
 	public static boolean isNumeric(String word) {
 		boolean ret = false;
@@ -611,7 +612,7 @@ public class Utilities {
 					.add(trabajadorId);
 		
 		datosQr = cipher(joiner.toString());
-		
+		cifrado = datosQr;
 		return datosQr;
 	}
 	
@@ -632,6 +633,12 @@ public class Utilities {
 			fieldNames.add(field.getName());
 		}
 		return fieldNames;
+	}
+	
+	public static String descipher(String aDescifrar) throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException{
+		KeyPair par = RSAManagement.getRSAKeys();
+		String rsaDescifrado = RSAManagement.descifrarMensajeRSA(aDescifrar, par.getPublic());
+		return RSAManagement.descifrarMensajeCesar(rsaDescifrado);
 	}
 	
 }
