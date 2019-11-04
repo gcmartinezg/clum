@@ -84,6 +84,19 @@ public class LamparaRegistradaRestController {
             throw e;
         }
     }
+    
+    @GetMapping(value = "/getDataLamparaRegistradaByUser/{usuUsuario}")
+    public List<LamparaRegistradaDTO> getDataLamparaRegistradaByUser(@PathVariable("usuUsuario") String usuUsuario)
+        throws Exception {
+        try {
+            List<LamparaRegistradaDTO> list = lamparaRegistradaService.getDataLamparaRegistrada();
+            list.removeIf((lr) -> {return lr.getUsuarioId_Usuario() != usuUsuario;});
+            return list;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw e;
+        }
+    }
 
     @GetMapping(value = "/getLamparaRegistrada/{lamparaRegistradaId}")
     public LamparaRegistradaDTO getLamparaRegistrada(

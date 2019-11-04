@@ -312,6 +312,17 @@ public class UsuarioRestController {
         
 	}
 	
+	@GetMapping(value = "/getEmailFromUsuarioId/{usuarioId}")
+	public Respuesta getEmailFromUsuarioId(@PathVariable("usuarioId") String usuarioId) throws Exception{
+		try {
+			return new Respuesta(getTerceroFromUsuarioId(usuarioId).getEmail());
+		} catch(Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		
+		return null;
+	}
+	
 	@GetMapping(value = "/getMensajeRSA")
 	public Respuesta getMensajeRSA() throws Exception{
 		try {

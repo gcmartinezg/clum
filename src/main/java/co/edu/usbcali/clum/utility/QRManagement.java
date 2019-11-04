@@ -42,7 +42,7 @@ public class QRManagement {
         QRCodeWriter writer = new QRCodeWriter();
         BitMatrix matrix = writer.encode(
         		texto, com.google.zxing.BarcodeFormat.QR_CODE, ancho, alto
-        		);
+        	);
 
         BufferedImage image = new BufferedImage(
         		matrix.getWidth(), matrix.getHeight(), BufferedImage.TYPE_INT_RGB
