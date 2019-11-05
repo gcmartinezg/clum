@@ -1,8 +1,10 @@
 package co.edu.usbcali.clum.controller;
 
 import co.edu.usbcali.clum.domain.*;
+import co.edu.usbcali.clum.dto.LamparaRegistradaDTO;
 import co.edu.usbcali.clum.dto.TerceroDTO;
 import co.edu.usbcali.clum.dto.UsuarioDTO;
+import co.edu.usbcali.clum.mapper.LamparaRegistradaMapper;
 import co.edu.usbcali.clum.mapper.TerceroMapper;
 import co.edu.usbcali.clum.mapper.UsuarioMapper;
 import co.edu.usbcali.clum.service.EstadoService;
@@ -48,6 +50,8 @@ public class UsuarioRestController {
     private UsuarioMapper usuarioMapper;
     @Autowired
     private TerceroMapper terceroMapper;
+    @Autowired
+    private LamparaRegistradaMapper lamparaRegistradaMapper;
     @Autowired
     private EnviarCorreoService correo;
     
@@ -316,6 +320,23 @@ public class UsuarioRestController {
 	public Respuesta getEmailFromUsuarioId(@PathVariable("usuarioId") String usuarioId) throws Exception{
 		try {
 			return new Respuesta(getTerceroFromUsuarioId(usuarioId).getEmail());
+		} catch(Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		
+		return null;
+	}
+	
+	@GetMapping(value = "/getListaLamparasRegistradas/{usuarioId}")
+	public List<LamparaRegistradaDTO> getListaLamparasRegistradas(@PathVariable("usuarioId") String usuarioId) throws Exception{
+		try {
+			List<LamparaRegistradaDTO> lrDto = new ArrayList<>();
+			List<LamparaRegistrada> lr = new ArrayList<>();
+			lr.addAll(usuarioService.getUsuario(usuarioId).getLamparaRegistradas());
+			lrDto.addAll(
+				lamparaRegistradaMapper.listLamparaRegistradaToListLamparaRegistradaDTO(lr)
+			);
+			return lrDto;
 		} catch(Exception e) {
 			log.error(e.getMessage(), e);
 		}

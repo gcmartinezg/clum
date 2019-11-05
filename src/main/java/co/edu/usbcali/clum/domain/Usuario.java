@@ -91,7 +91,7 @@ public class Usuario implements java.io.Serializable {
         this.contrasenia = contrasenia;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "usuario")
     public Set<LamparaRegistrada> getLamparaRegistradas() {
         return this.lamparaRegistradas;
     }
