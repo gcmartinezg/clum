@@ -21,7 +21,7 @@
 		<spring.security.version>5.0.7.RELEASE</spring.security.version>
 		<mojarra.version>2.2.17</mojarra.version>
 		<log4j2.version>2.11.0</log4j2.version>
-		<jackson.core.version>2.9.6</jackson.core.version>
+		<jackson.core.version>2.10.1</jackson.core.version>
 		<jamonapi.version>2.81</jamonapi.version>
 		<junit.platform.version>1.2.0</junit.platform.version>
 		<junit.jupiter.version>5.2.0</junit.jupiter.version>
