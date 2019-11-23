@@ -4,6 +4,7 @@ import co.edu.usbcali.clum.domain.RedAlimentacion;
 import co.edu.usbcali.clum.dto.RedAlimentacionDTO;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -23,4 +24,6 @@ public interface RedAlimentacionMapper {
 
     public List<RedAlimentacion> listRedAlimentacionDTOToListRedAlimentacion(
         List<RedAlimentacionDTO> redAlimentacionDTOs) throws Exception;
+    
+    public RedAlimentacionDTO redAlimentacionFirebaseToRedAlimentacionDTO(Map<String, Object> data) throws Exception;
 }

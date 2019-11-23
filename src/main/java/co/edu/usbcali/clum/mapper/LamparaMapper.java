@@ -4,6 +4,7 @@ import co.edu.usbcali.clum.domain.Lampara;
 import co.edu.usbcali.clum.dto.LamparaDTO;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -23,4 +24,6 @@ public interface LamparaMapper {
 
     public List<Lampara> listLamparaDTOToListLampara(
         List<LamparaDTO> lamparaDTOs) throws Exception;
+    
+    public LamparaDTO lamparaFirebaseToLampara(Map<String, Object> data) throws Exception;
 }

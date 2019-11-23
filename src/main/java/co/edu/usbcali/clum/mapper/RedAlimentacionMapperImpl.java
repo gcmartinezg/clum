@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -178,5 +179,33 @@ public class RedAlimentacionMapperImpl implements RedAlimentacionMapper {
         } catch (Exception e) {
             throw e;
         }
+    }
+    
+    public RedAlimentacionDTO redAlimentacionFirebaseToRedAlimentacionDTO(Map<String, Object> data) throws Exception{
+    	try {
+			String calibre = (String) data.get("calibreConductorAwg");
+			Integer idEstado = (int) (long) data.get("idEstado_Estado");
+			Integer redAlimentacionId = (int) (long) data.get("redAlimentacionId");
+			Integer tipoInstalacionId = (int) (long) data.get("tipoInstalacionId_TipoInstalacion");
+			Integer tipoMaterialId = (int) (long) data.get("tipoMaterialId_TipoMaterial");
+			Integer tipoSoporteId = (int) (long) data.get("tipoSoporteId_TipoSoporte");
+			RedAlimentacionDTO redAlimentacionDTO = new RedAlimentacionDTO();
+
+            redAlimentacionDTO.setRedAlimentacionId(redAlimentacionId);
+            redAlimentacionDTO.setCalibreConductorAwg((calibre != null)
+                ? calibre : null);
+            redAlimentacionDTO.setIdEstado_Estado((idEstado != null)
+                ? idEstado : null);
+            redAlimentacionDTO.setTipoInstalacionId_TipoInstalacion((tipoInstalacionId != null)
+                ? tipoInstalacionId : null);
+            redAlimentacionDTO.setTipoMaterialId_TipoMaterial((tipoMaterialId != null)
+                ? tipoInstalacionId : null);
+            redAlimentacionDTO.setTipoSoporteId_TipoSoporte((tipoSoporteId != null)
+                ? tipoSoporteId : null);
+
+            return redAlimentacionDTO;
+		} catch (Exception e) {
+			throw e;
+		}
     }
 }
