@@ -36,6 +36,7 @@ import javax.validation.Validator;
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
     private static final Logger log = LoggerFactory.getLogger(UsuarioServiceImpl.class);
+    private static final String TECNICO_STR = "tecnico";
 
     /**
      * Repository injected by Spring that manages Usuario entities
@@ -433,8 +434,39 @@ public class UsuarioServiceImpl implements UsuarioService {
     	if(usuarioId==null) {
 			throw new Exception("El usuario es nulo");
 		}
-		if(usuarioId.isEmpty()) {
-			throw new Exception("El usuario es vacio");
+		if(usuarioId.trim().isEmpty()) {
+			throw new Exception("El usuario esta vacio");
+		}
+		Usuario usuario = getUsuario(usuarioId);
+		if(usuario == null) {
+			throw new Exception("Por favor comprueba tu usuario");
+		}
+		if(usuario.getTipoUsuario().getNombreTipoUsuario().equalsIgnoreCase(TECNICO_STR)) {
+			throw new Exception("Usted no está autorizado para acceder a la plataforma");
+		}
+		if(contrasenia.equals("")) {
+			throw new Exception("La clave es nula");
+		}
+		if(contrasenia.trim().isEmpty()) {
+			throw new Exception("La clave es vacia");
+		}
+		if(!usuario.getContrasenia().equals(contrasenia)) {
+			throw new Exception("La clave ingresada es incorrecta");
+		}
+		Estado estado = serviceEstado1.getEstado(usuario.getEstado().getIdEstado());
+		if(estado == null) {
+			throw new Exception("El estado es nulo o el usuario ingresado no se ha definido un estado");
+		}
+		if(!estado.getEstado().equals("S")) {
+			throw new Exception("Por favor contacta al administrador para que te active el usuario");
+		}
+    	return true;
+    }
+    
+    @Override
+    public boolean verificarLoginUsuarioMovil(String usuarioId, String contrasenia) throws Exception{
+    	if(usuarioId==null) {
+			throw new Exception("El usuario es nulo");
 		}
 		if(usuarioId.trim().isEmpty()) {
 			throw new Exception("El usuario esta vacio");
@@ -443,11 +475,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 		if(usuario == null) {
 			throw new Exception("Por favor comprueba tu usuario");
 		}
+		if(!usuario.getTipoUsuario().getNombreTipoUsuario().equalsIgnoreCase(TECNICO_STR)) {
+			throw new Exception("Usted no está autorizado para acceder a la aplicación");
+		}
 		if(contrasenia.equals("")) {
 			throw new Exception("La clave es nula");
-		}
-		if(contrasenia.isEmpty()) {
-			throw new Exception("La clave esta vacia");
 		}
 		if(contrasenia.trim().isEmpty()) {
 			throw new Exception("La clave es vacia");

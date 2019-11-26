@@ -16,8 +16,13 @@ import org.springframework.stereotype.Component;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -144,5 +149,49 @@ public class LamparaRegistradaMapperImpl implements LamparaRegistradaMapper {
         } catch (Exception e) {
             throw e;
         }
+    }
+    
+    public LamparaRegistradaDTO lamparaRegistradaFirebaseToLamparaRegistradaDTO(Map<String, Object> data) throws Exception{
+    	try {
+    		DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+    		StringBuilder diaBuilder = new StringBuilder();
+    		StringBuilder fechaBuilder = new StringBuilder();
+			String fecha = (String) data.get("fechaHora").toString();
+			String[] fechaString = fecha.split("-");
+			String anio = fechaString[0];
+			String mes = fechaString[1];
+			String dia = fechaString[2];
+			diaBuilder.append(dia.charAt(0));
+			diaBuilder.append(dia.charAt(1));
+			fechaBuilder.append(diaBuilder);
+			fechaBuilder.append("/");
+			fechaBuilder.append(mes);
+			fechaBuilder.append("/");
+			fechaBuilder.append(anio);
+			String fechaHoraString = fechaBuilder.toString();
+			Date date = format.parse(fechaHoraString);
+			
+			Integer lamparaId = (int) (long) data.get("lamparaId_Lampara");
+			Integer lamparaRegistradaId = (int) (long) data.get("lamparaRegistradaId");
+			Double latitudTecnico = (Double) data.get("latitudPosActualTecnico");
+			Double longitudTecnico = (Double) data.get("longitudPosActualTecnico");
+			String usuarioId = (String) data.get("usuarioId_Usuario");
+			LamparaRegistradaDTO lamparaRegistradaDTO = new LamparaRegistradaDTO();
+
+            lamparaRegistradaDTO.setLamparaRegistradaId(lamparaRegistradaId);
+            lamparaRegistradaDTO.setFechaHora(date);
+            lamparaRegistradaDTO.setLatitudPosActualTecnico((latitudTecnico != null)
+                ? latitudTecnico : null);
+            lamparaRegistradaDTO.setLongitudPosActualTecnico((longitudTecnico != null)
+                ? longitudTecnico : null);
+            lamparaRegistradaDTO.setLamparaId_Lampara((lamparaId != null)
+                ? lamparaId : null);
+            lamparaRegistradaDTO.setUsuarioId_Usuario((usuarioId != null)
+                ? usuarioId : null);
+
+            return lamparaRegistradaDTO;
+		} catch (Exception e) {
+			throw e;
+		}
     }
 }

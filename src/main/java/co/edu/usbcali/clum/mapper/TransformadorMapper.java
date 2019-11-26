@@ -4,6 +4,7 @@ import co.edu.usbcali.clum.domain.Transformador;
 import co.edu.usbcali.clum.dto.TransformadorDTO;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -23,4 +24,6 @@ public interface TransformadorMapper {
 
     public List<Transformador> listTransformadorDTOToListTransformador(
         List<TransformadorDTO> transformadorDTOs) throws Exception;
+    
+    public TransformadorDTO transformadorFirebaseToTransformadorDTO(Map<String, Object> data) throws Exception;
 }

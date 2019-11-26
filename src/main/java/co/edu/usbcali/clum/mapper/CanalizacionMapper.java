@@ -4,6 +4,7 @@ import co.edu.usbcali.clum.domain.Canalizacion;
 import co.edu.usbcali.clum.dto.CanalizacionDTO;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -23,4 +24,6 @@ public interface CanalizacionMapper {
 
     public List<Canalizacion> listCanalizacionDTOToListCanalizacion(
         List<CanalizacionDTO> canalizacionDTOs) throws Exception;
+    
+    public CanalizacionDTO canalizacionFirebaseToCanalizacionDTO(Map<String, Object> data) throws Exception;
 }

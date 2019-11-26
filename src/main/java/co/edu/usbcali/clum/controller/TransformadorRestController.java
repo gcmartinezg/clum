@@ -31,6 +31,7 @@ public class TransformadorRestController {
     private TransformadorService transformadorService;
     @Autowired
     private TransformadorMapper transformadorMapper;
+   
 
     @PostMapping(value = "/saveTransformador")
     public void saveTransformador(@RequestBody
@@ -77,6 +78,8 @@ public class TransformadorRestController {
     public List<TransformadorDTO> getDataTransformador()
         throws Exception {
         try {
+        	//firebaseInit.init();
+        	//if(firebaseInit == null) log.info("Pailas ");
             return transformadorService.getDataTransformador();
         } catch (Exception e) {
             log.error(e.getMessage(), e);

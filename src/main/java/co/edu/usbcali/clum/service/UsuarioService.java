@@ -54,4 +54,6 @@ public interface UsuarioService {
     public void validateUsuario(Usuario usuario) throws Exception;
     
     public boolean verificarLoginUsuario(String usuarioId, String contrasenia) throws Exception;
+    
+    public boolean verificarLoginUsuarioMovil(String usuarioId, String contrasenia) throws Exception;
 }

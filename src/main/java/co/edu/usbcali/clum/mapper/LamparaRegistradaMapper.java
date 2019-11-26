@@ -4,6 +4,7 @@ import co.edu.usbcali.clum.domain.LamparaRegistrada;
 import co.edu.usbcali.clum.dto.LamparaRegistradaDTO;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -24,4 +25,6 @@ public interface LamparaRegistradaMapper {
     public List<LamparaRegistrada> listLamparaRegistradaDTOToListLamparaRegistrada(
         List<LamparaRegistradaDTO> lamparaRegistradaDTOs)
         throws Exception;
+    
+    public LamparaRegistradaDTO lamparaRegistradaFirebaseToLamparaRegistradaDTO(Map<String, Object> data) throws Exception;
 }

@@ -156,6 +156,20 @@ public class UsuarioRestController {
 		}
     }
     
+    @PostMapping("/loginMovil")
+    public ResponseEntity<Respuesta> loginUsuarioMovil(@RequestBody UsuarioDTO usuarioDTO) throws Exception{
+    	try {
+			if(usuarioDTO == null) {
+				return ResponseEntity.badRequest().body(new Respuesta("UsuarioDTO es nulo"));
+			}
+			usuarioService.verificarLoginUsuarioMovil(usuarioDTO.getUsuarioId(), usuarioDTO.getContrasenia());
+			return ResponseEntity.ok().body(new Respuesta("Sesion iniciada exitosamente"));
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return ResponseEntity.badRequest().body(new Respuesta(e.getMessage()));
+		}
+    }
+    
     @PutMapping("/deactivate")
 	public ResponseEntity<Respuesta> 
 		deactivate(@RequestBody UsuarioDTO usuarioDTO)
@@ -333,6 +347,26 @@ public class UsuarioRestController {
 			List<LamparaRegistradaDTO> lrDto = new ArrayList<>();
 			List<LamparaRegistrada> lr = new ArrayList<>();
 			lr.addAll(usuarioService.getUsuario(usuarioId).getLamparaRegistradas());
+			lrDto.addAll(
+				lamparaRegistradaMapper.listLamparaRegistradaToListLamparaRegistradaDTO(lr)
+			);
+			return lrDto;
+		} catch(Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		
+		return null;
+	}
+	
+	@GetMapping(value = "/getListaLamparasRegistradasHoyPorUsuario/{usuarioId}")
+	public List<LamparaRegistradaDTO> getListaLamparasRegistradasHoyPorUsuario(@PathVariable("usuarioId") String usuarioId) throws Exception{
+		try {
+			List<LamparaRegistradaDTO> lrDto = new ArrayList<>();
+			List<LamparaRegistrada> lr = new ArrayList<>();
+			lr.addAll(usuarioService.getUsuario(usuarioId).getLamparaRegistradas());
+			lr.removeIf((p)->{
+				return !Utilities.isToday(p.getFechaHora());
+			});
 			lrDto.addAll(
 				lamparaRegistradaMapper.listLamparaRegistradaToListLamparaRegistradaDTO(lr)
 			);

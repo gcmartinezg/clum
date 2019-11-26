@@ -13,6 +13,7 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -639,6 +640,11 @@ public class Utilities {
 		KeyPair par = RSAManagement.getRSAKeys();
 		String rsaDescifrado = RSAManagement.descifrarMensajeRSA(aDescifrar, par.getPublic());
 		return RSAManagement.descifrarMensajeCesar(rsaDescifrado);
+	}
+	
+	public static boolean isToday(Date date) {
+		LocalDate incoming = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		return incoming.equals(LocalDate.now());
 	}
 	
 }

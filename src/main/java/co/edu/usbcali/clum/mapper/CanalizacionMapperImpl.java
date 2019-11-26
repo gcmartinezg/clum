@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -180,5 +181,37 @@ public class CanalizacionMapperImpl implements CanalizacionMapper {
         } catch (Exception e) {
             throw e;
         }
+    }
+    
+    public CanalizacionDTO canalizacionFirebaseToCanalizacionDTO(Map<String, Object> data) throws Exception{
+    	try {
+    		Integer lamparaId = (int)(long) data.get("lamparaId_Lampara");
+    		Integer tipoZonaId = (int)(long) data.get("tipoZonaId_TipoZona");
+    		Integer tipoSoporteId = (int)(long) data.get("tipoSoporteId_TipoSoporte");
+			String ducteria = (String) data.get("ducteria");
+			Integer canalizacionId = (int) (long) data.get("canalizacionId");
+			String cajaInspeccion = (String) data.get("cajaInspeccion");
+			Integer idEstado = (int)(long) data.get("idEstado_Estado");
+			
+			CanalizacionDTO canalizacionDTO = new CanalizacionDTO();
+
+            canalizacionDTO.setCanalizacionId(canalizacionId);
+            canalizacionDTO.setCajaInspeccion((cajaInspeccion != null)
+                ? cajaInspeccion : null);
+            canalizacionDTO.setDucteria((ducteria != null)
+                ? ducteria : null);
+            canalizacionDTO.setIdEstado_Estado((idEstado != null)
+                ? idEstado : null);
+            canalizacionDTO.setLamparaId_Lampara((lamparaId != null)
+                ? lamparaId : null);
+            canalizacionDTO.setTipoSoporteId_TipoSoporte((tipoSoporteId != null)
+                ? tipoSoporteId : null);
+            canalizacionDTO.setTipoZonaId_TipoZona((tipoZonaId != null)
+                ? tipoZonaId : null);
+
+            return canalizacionDTO;
+		} catch (Exception e) {
+			throw e;
+		}
     }
 }

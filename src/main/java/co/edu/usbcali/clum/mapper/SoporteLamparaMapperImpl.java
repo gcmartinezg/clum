@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -157,5 +158,30 @@ public class SoporteLamparaMapperImpl implements SoporteLamparaMapper {
         } catch (Exception e) {
             throw e;
         }
+    }
+    
+    public SoporteLamparaDTO soporteLamparaFirebaseToSoporteLamparaDTO(Map<String, Object> data) throws Exception{
+    	try {
+			Integer idEstado = (int) (long) data.get("idEstado_Estado");
+			Integer longitud = (int) (long) data.get("longitud");
+			Integer soporteLamparaId = (int) (long) data.get("soporteLamparaId");
+			Integer tipoMaterialId = (int) (long) data.get("tipoMaterialId_TipoMaterial");
+			Integer tipoSoporteId = (int) (long) data.get("tipoSoporteId_TipoSoporte");
+			SoporteLamparaDTO soporteLamparaDTO = new SoporteLamparaDTO();
+
+            soporteLamparaDTO.setSoporteLamparaId(soporteLamparaId);
+            soporteLamparaDTO.setLongitud((longitud != null)
+                ? longitud : null);
+            soporteLamparaDTO.setIdEstado_Estado((idEstado != null)
+                ? idEstado : null);
+            soporteLamparaDTO.setTipoMaterialId_TipoMaterial((tipoMaterialId != null)
+                ? tipoMaterialId : null);
+            soporteLamparaDTO.setTipoSoporteId_TipoSoporte((tipoSoporteId != null)
+                ? tipoSoporteId : null);
+
+            return soporteLamparaDTO;
+		} catch (Exception e) {
+			throw e;
+		}
     }
 }

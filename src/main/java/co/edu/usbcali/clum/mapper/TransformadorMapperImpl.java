@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -153,5 +154,28 @@ public class TransformadorMapperImpl implements TransformadorMapper {
         } catch (Exception e) {
             throw e;
         }
+    }
+    
+   
+	public TransformadorDTO transformadorFirebaseToTransformadorDTO(Map<String, Object> data) throws Exception{
+    	try {
+    		Integer transformadorId = (int) (long) data.get("transformadorId");
+    		Integer idEstado = (int) (long) data.get("idEstado_Estado");
+    		Integer idTipoSoporte = (int) (long) data.get("tipoSoporteId_TipoSoporte");
+    		Integer idTipoTransformador = (int) (long) data.get("tipoTransformadorId_TipoTransformador");
+    		TransformadorDTO transformadorDTO = new TransformadorDTO();
+    		transformadorDTO.setTransformadorId( transformadorId );
+            transformadorDTO.setIdEstado_Estado((  idEstado != null)
+                ?  idEstado : null);
+            transformadorDTO.setTipoSoporteId_TipoSoporte(( idTipoSoporte != null)
+                ?  idTipoSoporte : null);
+            transformadorDTO.setTipoTransformadorId_TipoTransformador(( idTipoTransformador  != null)
+                ? idTipoTransformador : null);
+			
+            return transformadorDTO;
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			throw e;
+		}
     }
 }

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -264,5 +265,65 @@ public class LamparaMapperImpl implements LamparaMapper {
         } catch (Exception e) {
             throw e;
         }
+    }
+    
+    public LamparaDTO lamparaFirebaseToLampara(Map<String, Object> data) throws Exception{
+    	try {
+    		
+    					
+    		String controlEncendido = (String) data.get("controlEncendido");
+    		String funcionamiento = (String) data.get("funcionamiento");
+    		Integer idEstado = (int) (long) data.get("idEstado_Estado");
+    		Integer lamparaId = (int) (long) data.get("lamparaId");
+    		Double latitudLampara = (Double) data.get("latitudLampara");
+    		Double longitudLampara = (Double) data.get("longitudLampara");	
+     		Integer nivelTension = (int) (long) data.get("nivelTension");
+    		Integer potencia = (int) (long) data.get("potencia");
+    		Integer redAlimentacionId = (int) (long) data.get("redAlimentacionId_RedAlimentacion");
+    		Integer soporteLamparaId = (int) (long) data.get("soporteLamparaId_SoporteLampara");
+    		Integer tipoBalastoId = (int) (long) data.get("tipoBalastoId_TipoBalasto");
+    		Integer tipoEspacioIluminadoId = (int) (long) data.get("tipoEspacioIluminadoId_TipoEspacioIluminado");
+    		Integer tipoLamparaId = (int) (long) data.get("tipoLamparaId_TipoLampara");
+    		Integer transformadorId = (int) (long) data.get("transformadorId_Transformador");
+    		String urlImagen = (String) data.get("urlImagen");
+    		Long valorPerdidas = (long) data.get("valorPerdidas"); 
+    		LamparaDTO lamparaDTO = new LamparaDTO();
+
+            lamparaDTO.setLamparaId(lamparaId);
+            lamparaDTO.setControlEncendido((controlEncendido != null)
+                ? controlEncendido : null);
+            lamparaDTO.setFuncionamiento((funcionamiento != null)
+                ? funcionamiento : null);
+            lamparaDTO.setLatitudLampara((latitudLampara != null)
+                ? latitudLampara : null);
+            lamparaDTO.setLongitudLampara((longitudLampara != null)
+                ? longitudLampara : null);
+            lamparaDTO.setNivelTension((nivelTension != null)
+                ? nivelTension : null);
+            lamparaDTO.setPotencia((potencia != null)
+                ? potencia : null);
+            lamparaDTO.setUrlImagen((urlImagen != null)
+                ? urlImagen : null);
+            lamparaDTO.setValorPerdidas((valorPerdidas != null)
+                ? valorPerdidas : null);
+            lamparaDTO.setIdEstado_Estado((idEstado != null)
+                ? idEstado : null);
+            lamparaDTO.setRedAlimentacionId_RedAlimentacion((redAlimentacionId != null)
+                ? redAlimentacionId : null);
+            lamparaDTO.setSoporteLamparaId_SoporteLampara((soporteLamparaId != null)
+                ? soporteLamparaId : null);
+            lamparaDTO.setTipoBalastoId_TipoBalasto((tipoBalastoId != null)
+                ? tipoBalastoId : null);
+            lamparaDTO.setTipoEspacioIluminadoId_TipoEspacioIluminado((tipoEspacioIluminadoId != null)
+                ? tipoEspacioIluminadoId : null);
+            lamparaDTO.setTipoLamparaId_TipoLampara((tipoLamparaId != null)
+                ? tipoLamparaId : null);
+            lamparaDTO.setTransformadorId_Transformador((transformadorId != null)
+                ? transformadorId : null);
+
+            return lamparaDTO;
+		} catch (Exception e) {
+			throw e;
+		}
     }
 }
